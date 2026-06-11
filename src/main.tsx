@@ -13,6 +13,15 @@ const router = createRouter({
   context: {
     queryClient,
   },
+  scrollRestoration: false,
 });
 
-ReactDOM.createRoot(document.getElementById("root")!).render(<RouterProvider router={router} />);
+function App() {
+  return (
+    <div style={{ minHeight: "100vh" }}>
+      <RouterProvider router={router} />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")!).render(<App />);

@@ -1,11 +1,10 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Premium Aurora System (polished version):
- * - Softer amber/orange gradient layers
- * - Reduced visual noise for readability
- * - Smoother particle motion
- * - Better performance + less flicker
+ * SAFE Aurora Background (scroll-proof version)
+ * - No layout interference
+ * - Keeps visuals identical
+ * - Fully decoupled from document flow
  */
 export function AuroraBackground() {
   const ref = useRef<HTMLCanvasElement>(null);
@@ -38,7 +37,6 @@ export function AuroraBackground() {
     resize();
     window.addEventListener("resize", resize);
 
-    // ↓ reduced particles for cleaner premium feel
     const N = 45;
 
     const stars = Array.from({ length: N }, () => ({
@@ -65,7 +63,7 @@ export function AuroraBackground() {
         const alpha = s.a * (0.55 + 0.35 * Math.sin(s.tw));
 
         ctx.beginPath();
-        ctx.fillStyle = `rgba(255, 170, 90, ${alpha})`; // softer amber tone
+        ctx.fillStyle = `rgba(255, 170, 90, ${alpha})`;
         ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
         ctx.fill();
       }
@@ -82,11 +80,11 @@ export function AuroraBackground() {
   }, []);
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      {/* Soft vignette for depth (IMPORTANT for premium feel) */}
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
+      {/* SAFE: visual-only layers (no overflow-hidden) */}
+
       <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-transparent to-background/80" />
 
-      {/* Aurora Layer 1 */}
       <div
         className="absolute -top-40 -left-40 h-[65vmax] w-[65vmax] rounded-full opacity-25 blur-3xl animate-float"
         style={{
@@ -94,7 +92,6 @@ export function AuroraBackground() {
         }}
       />
 
-      {/* Aurora Layer 2 */}
       <div
         className="absolute top-1/3 -right-40 h-[65vmax] w-[65vmax] rounded-full opacity-20 blur-3xl animate-float"
         style={{
@@ -103,7 +100,6 @@ export function AuroraBackground() {
         }}
       />
 
-      {/* Aurora Layer 3 */}
       <div
         className="absolute bottom-0 left-1/3 h-[50vmax] w-[50vmax] rounded-full opacity-15 blur-3xl animate-float"
         style={{

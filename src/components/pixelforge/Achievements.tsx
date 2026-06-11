@@ -6,23 +6,23 @@ const badges = [
   {
     icon: Sprout,
     title: "Discipline forged early",
-    lore: "Years of boarding school taught me to show up, plan, and execute — daily.",
+    lore: "Years of structure and consistency built the foundation for everything I create today.",
   },
   {
     icon: Flame,
     title: "Self-taught momentum",
-    lore: "Built fluency in React + TypeScript outside class. The repo grew faster than the syllabus.",
+    lore: "Built strong React + TypeScript fluency outside class through continuous building.",
   },
   {
     icon: Award,
     title: "GitSync Hackathon",
-    lore: "Placeholder: first team collaboration under pressure. Certificate landing soon.",
+    lore: "First real-world team collaboration under pressure. Certificate pending verification.",
     pending: true,
   },
   {
     icon: Trophy,
-    title: "Future · open slot",
-    lore: "Reserved for the next milestone — hackathon, certification, shipped product.",
+    title: "Future milestone slot",
+    lore: "Reserved for the next major win — shipped product, award, or breakthrough.",
     pending: true,
   },
 ];
@@ -37,40 +37,92 @@ export function Achievements() {
           Badges with <span className="text-gradient-forge">lore</span>.
         </>
       }
-      intro="Hover any badge to read the story behind it."
+      intro="Each metric reflects a real step in the building journey."
     >
-      <div className="mb-10 grid grid-cols-2 gap-4 md:grid-cols-4">
+      {/* STATS */}
+      <div className="mb-14 grid grid-cols-2 gap-5 md:grid-cols-4">
         {[
           { n: 15, s: "+", l: "Projects built" },
           { n: 300, s: "+", l: "Hours coding" },
-          { n: 25, s: "+", l: "Technologies" },
-          { n: 1000, s: "+", l: "Commits" },
+          { n: 25, s: "+", l: "Technologies used" },
+          { n: 1000, s: "+", l: "Commits made" },
         ].map((k) => (
-          <div key={k.l} className="glass rounded-xl p-5 hover-lift">
-            <div className="text-3xl md:text-4xl font-bold text-gradient-forge font-[Space_Grotesk]">
-              <CountUp to={k.n} suffix={k.s} />
+          <div
+            key={k.l}
+            className="
+              group relative overflow-hidden rounded-2xl
+              border border-border/70 bg-card/40 backdrop-blur-md
+              p-6 transition-all duration-300
+              hover:-translate-y-1 hover:border-primary/30
+              hover:shadow-[var(--shadow-glow)]
+            "
+          >
+            {/* soft ambient glow */}
+            <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
+              <div className="absolute -top-12 -right-12 h-48 w-48 rounded-full bg-primary/10 blur-3xl" />
             </div>
-            <div className="mt-1 text-[10px] uppercase tracking-widest text-muted-foreground">
-              {k.l}
+
+            <div className="relative">
+              <div className="text-3xl md:text-4xl font-bold text-gradient-forge font-[Space_Grotesk] tracking-tight">
+                <CountUp to={k.n} suffix={k.s} />
+              </div>
+
+              <div className="mt-2 text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+                {k.l}
+              </div>
             </div>
           </div>
         ))}
       </div>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+
+      {/* BADGES */}
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {badges.map((b) => {
           const Icon = b.icon;
+
           return (
             <div
               key={b.title}
-              className={`group relative rounded-xl p-5 hover-lift ${b.pending ? "border border-dashed border-border bg-card/40" : "glass"}`}
+              className={`
+                group relative overflow-hidden rounded-2xl p-6
+                transition-all duration-300
+                hover:-translate-y-1 hover:border-primary/30
+                hover:shadow-[var(--shadow-glow)]
+                ${
+                  b.pending
+                    ? "border border-dashed border-border bg-card/30"
+                    : "border border-border/70 bg-card/50 backdrop-blur-md"
+                }
+              `}
             >
+              {/* glow layer */}
+              {!b.pending && (
+                <div className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute -inset-12 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 blur-3xl" />
+                </div>
+              )}
+
+              {/* icon */}
               <div
-                className={`flex h-12 w-12 items-center justify-center rounded-md ${b.pending ? "border border-dashed border-border text-muted-foreground" : "bg-primary/10 text-primary"}`}
+                className={`
+                  relative flex h-12 w-12 items-center justify-center rounded-md transition-all
+                  ${
+                    b.pending
+                      ? "border border-dashed border-border text-muted-foreground"
+                      : "bg-primary/10 text-primary group-hover:bg-primary/20"
+                  }
+                `}
               >
                 <Icon className="h-5 w-5" />
               </div>
-              <h3 className="mt-4 font-semibold text-foreground">{b.title}</h3>
-              <p className="mt-2 text-xs text-muted-foreground leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
+
+              {/* title */}
+              <h3 className="mt-5 text-base font-semibold text-foreground group-hover:text-primary transition-colors">
+                {b.title}
+              </h3>
+
+              {/* lore */}
+              <p className="mt-2 text-xs leading-relaxed text-muted-foreground opacity-85 group-hover:opacity-100 transition-opacity">
                 {b.lore}
               </p>
             </div>
