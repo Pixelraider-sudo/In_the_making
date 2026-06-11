@@ -33,7 +33,7 @@
 }
 
 /* --------------------------------
-   ROOT THEME (LIGHT)
+   ROOT THEME
 -------------------------------- */
 
 :root {
@@ -48,24 +48,32 @@
   --popover: oklch(0.18 0.03 270);
   --popover-foreground: oklch(0.96 0.01 240);
 
-  --primary: oklch(0.82 0.16 200);
-  --secondary: oklch(0.65 0.22 300);
+  /* AMBER / ORANGE CORE THEME */
+  --primary: oklch(0.78 0.17 60);
+  --secondary: oklch(0.7 0.2 35);
+  --accent: oklch(0.85 0.16 85);
+
   --muted: oklch(0.24 0.03 270);
-  --accent: oklch(0.65 0.22 300);
 
   --border: oklch(0.3 0.04 270);
   --input: oklch(0.26 0.035 270);
-  --ring: oklch(0.82 0.16 200);
+  --ring: oklch(0.78 0.17 60);
 
-  --grid-color: oklch(0.82 0.16 200 / 0.08);
+  --grid-color: oklch(0.78 0.17 60 / 0.07);
 
-  /* keep extras (SAFE but optional usage) */
-  --shadow-glow: 0 0 40px oklch(0.82 0.16 200 / 0.25);
-  --gradient-forge: linear-gradient(135deg, oklch(0.82 0.16 200), oklch(0.65 0.22 300));
+  /* FX SYSTEM */
+  --shadow-glow: 0 0 40px oklch(0.78 0.17 60 / 0.25);
+
+  --gradient-forge: linear-gradient(
+    135deg,
+    oklch(0.78 0.17 60),
+    oklch(0.7 0.2 35),
+    oklch(0.85 0.16 85)
+  );
 }
 
 /* --------------------------------
-   DARK MODE
+   DARK MODE (ENHANCED)
 -------------------------------- */
 
 .dark {
@@ -75,14 +83,15 @@
   --card: oklch(0.208 0.042 265.755);
   --popover: oklch(0.208 0.042 265.755);
 
-  --primary: oklch(0.929 0.013 255.508);
-  --secondary: oklch(0.279 0.041 260.031);
+  --primary: oklch(0.78 0.17 60);
+  --secondary: oklch(0.7 0.2 35);
+  --accent: oklch(0.85 0.16 85);
+
   --muted: oklch(0.279 0.041 260.031);
-  --accent: oklch(0.279 0.041 260.031);
 
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
+  --ring: oklch(0.78 0.17 60);
 }
 
 /* --------------------------------
@@ -98,9 +107,11 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: "JetBrains Mono", ui-monospace, monospace;
+
     background-image:
       linear-gradient(var(--grid-color) 1px, transparent 1px),
       linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+
     background-size: 48px 48px;
     background-attachment: fixed;
   }
@@ -142,8 +153,13 @@
 }
 
 @keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px oklch(0.78 0.17 60 / 0.25);
+  }
+
   50% {
-    box-shadow: 0 0 40px oklch(0.65 0.22 300 / 0.6);
+    box-shadow: 0 0 45px oklch(0.7 0.2 35 / 0.55);
   }
 }
 
