@@ -1,5 +1,6 @@
 import { Section } from "./Section";
 import { Award, Flame, Sprout, Trophy } from "lucide-react";
+import { CountUp } from "./CountUp";
 
 const badges = [
   {
@@ -38,13 +39,30 @@ export function Achievements() {
       }
       intro="Hover any badge to read the story behind it."
     >
+      <div className="mb-10 grid grid-cols-2 gap-4 md:grid-cols-4">
+        {[
+          { n: 15, s: "+", l: "Projects built" },
+          { n: 300, s: "+", l: "Hours coding" },
+          { n: 25, s: "+", l: "Technologies" },
+          { n: 1000, s: "+", l: "Commits" },
+        ].map((k) => (
+          <div key={k.l} className="glass rounded-xl p-5 hover-lift">
+            <div className="text-3xl md:text-4xl font-bold text-gradient-forge font-[Space_Grotesk]">
+              <CountUp to={k.n} suffix={k.s} />
+            </div>
+            <div className="mt-1 text-[10px] uppercase tracking-widest text-muted-foreground">
+              {k.l}
+            </div>
+          </div>
+        ))}
+      </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {badges.map((b) => {
           const Icon = b.icon;
           return (
             <div
               key={b.title}
-              className={`group relative rounded-lg border bg-card p-5 transition-all hover:-translate-y-1 ${b.pending ? "border-dashed border-border" : "border-border hover:border-primary"}`}
+              className={`group relative rounded-xl p-5 hover-lift ${b.pending ? "border border-dashed border-border bg-card/40" : "glass"}`}
             >
               <div
                 className={`flex h-12 w-12 items-center justify-center rounded-md ${b.pending ? "border border-dashed border-border text-muted-foreground" : "bg-primary/10 text-primary"}`}

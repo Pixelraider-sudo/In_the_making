@@ -94,7 +94,7 @@ export function Contact() {
               href={l.href}
               target="_blank"
               rel="noreferrer"
-              className="group rounded-lg border border-border bg-card p-5 transition-all hover:border-primary hover:-translate-y-0.5"
+              className="group glass hover-lift rounded-xl p-5"
             >
               <div className="flex items-center gap-3 text-primary">
                 <Icon className="h-5 w-5" />

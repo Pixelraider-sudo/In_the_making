@@ -48,8 +48,23 @@ export function Hero({ onOpenTerminal }: { onOpenTerminal: () => void }) {
         <div className="flex flex-col md:flex-row md:items-start gap-8 md:gap-12">
           {/* Profile image — replace src with your photo */}
           <div className="shrink-0 mx-auto md:mx-0">
-            <div className="relative h-32 w-32 md:h-40 md:w-40 rounded-full border-2 border-primary/40 overflow-hidden shadow-[var(--shadow-glow)]">
-              <img src="/profile.jpg" alt="Kipkirui John" className="h-full w-full object-cover" />
+            <div className="relative h-36 w-36 md:h-44 md:w-44">
+              {/* rotating gradient ring */}
+              <div
+                className="absolute -inset-1 rounded-full opacity-80 blur-[2px] animate-spin-slow"
+                style={{
+                  background:
+                    "conic-gradient(from 0deg, oklch(0.82 0.16 200), oklch(0.65 0.22 300), oklch(0.75 0.18 180), oklch(0.82 0.16 200))",
+                }}
+              />
+              <div className="absolute inset-0 rounded-full glow-ring" />
+              <div className="relative h-full w-full rounded-full overflow-hidden border-2 border-background bg-card">
+                <img
+                  src="/profile.jpg"
+                  alt="Kipkirui John"
+                  className="h-full w-full object-cover"
+                />
+              </div>
             </div>
           </div>
           <div className="flex-1 text-center md:text-left">

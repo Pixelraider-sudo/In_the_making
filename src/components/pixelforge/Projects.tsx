@@ -48,7 +48,7 @@ export function Projects() {
         {items.map((p) => (
           <article
             key={p.title}
-            className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card transition-all hover:-translate-y-1 hover:border-primary"
+            className="group glass hover-lift flex flex-col overflow-hidden rounded-xl"
           >
             <header className="flex items-center justify-between border-b border-border bg-background/50 px-4 py-2 text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
               <div className="flex items-center gap-1.5">
