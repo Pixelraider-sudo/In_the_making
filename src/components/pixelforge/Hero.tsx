@@ -60,7 +60,7 @@ export function Hero({ onOpenTerminal }: { onOpenTerminal: () => void }) {
               <div className="absolute inset-0 rounded-full glow-ring" />
               <div className="relative h-full w-full rounded-full overflow-hidden border-2 border-background bg-card">
                 <img
-                  src="/profile.jpg"
+                  src="/profile.jpeg"
                   alt="Kipkirui John"
                   className="h-full w-full object-cover"
                 />
