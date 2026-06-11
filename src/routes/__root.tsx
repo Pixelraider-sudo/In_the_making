@@ -10,7 +10,6 @@ import {
 import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
-import { reportLovableError } from "../lib/lovable-error-reporting";
 
 /* ---------------------------
    NOT FOUND
@@ -39,16 +38,16 @@ function NotFoundComponent() {
 }
 
 /* ---------------------------
-   ERROR BOUNDARY
+   ERROR BOUNDARY (FIXED)
 --------------------------- */
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
-  console.error(error);
+  console.error("App Error:", error);
+
   const router = useRouter();
 
   useEffect(() => {
-    reportLovableError(error, {
-      boundary: "tanstack_root_error_component",
-    });
+    // Safe local logging (no Lovable dependency)
+    console.error("Route Error:", error);
   }, [error]);
 
   return (
@@ -120,7 +119,7 @@ export const Route = createRootRouteWithContext<{
 });
 
 /* ---------------------------
-   ROOT SHELL (🔥 FIXED SCROLL)
+   ROOT SHELL (FIXED SCROLL)
 --------------------------- */
 function RootShell({ children }: { children: ReactNode }) {
   return (
@@ -129,13 +128,7 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
 
-      {/* ✅ CRITICAL FIX:
-          - NO overflow-y-auto here
-          - NO min-h-screen wrapper locking layout
-          - let browser handle scrolling naturally
-      */}
       <body className="bg-background text-foreground overflow-x-hidden">
-        {/* ✅ This wrapper does NOT interfere with scroll */}
         <div className="relative flex min-h-screen flex-col">{children}</div>
 
         <Scripts />
