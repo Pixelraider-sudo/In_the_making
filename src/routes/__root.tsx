@@ -15,6 +15,9 @@ import { Hotkeys } from "../lib/hotkeys";
 import { DevMode } from "../lib/dev-mode";
 import { SystemLog } from "../lib/system-log";
 
+/* ✅ ADDED: Dev Overlay */
+import { DevOverlay } from "../components/pixelforge/DevOverlay";
+
 /* ---------------------------
    NOT FOUND
 --------------------------- */
@@ -130,8 +133,13 @@ function RootShell({ children }: { children: ReactNode }) {
       <head>
         <HeadContent />
       </head>
+
       <body>
         {children}
+
+        {/* ✅ ADDED: Dev Overlay globally */}
+        <DevOverlay />
+
         <Scripts />
       </body>
     </html>
