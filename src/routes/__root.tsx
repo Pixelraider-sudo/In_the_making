@@ -11,6 +11,10 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 
+import { Hotkeys } from "../lib/hotkeys";
+import { DevMode } from "../lib/dev-mode";
+import { SystemLog } from "../lib/system-log";
+
 /* ---------------------------
    NOT FOUND
 --------------------------- */
@@ -46,7 +50,6 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
 
   useEffect(() => {
-    // Safe local logging (no Lovable dependency)
     console.error("Route Error:", error);
   }, [error]);
 
@@ -127,10 +130,8 @@ function RootShell({ children }: { children: ReactNode }) {
       <head>
         <HeadContent />
       </head>
-
-      <body className="bg-background text-foreground overflow-x-hidden">
-        <div className="relative flex min-h-screen flex-col">{children}</div>
-
+      <body>
+        {children}
         <Scripts />
       </body>
     </html>
@@ -138,10 +139,30 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 /* ---------------------------
-   ROOT COMPONENT
+   ROOT COMPONENT (FIXED)
 --------------------------- */
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    SystemLog.bootSequence();
+
+    const cleanup = Hotkeys.init();
+
+    Hotkeys.onKey((key) => {
+      if (key === "d") {
+        console.log("D key detected");
+
+        DevMode.toggle();
+
+        console.log("DevMode =", DevMode.isEnabled());
+
+        SystemLog.add("Dev Mode toggled", "warn");
+      }
+    });
+
+    return () => cleanup?.();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

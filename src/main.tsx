@@ -10,18 +10,16 @@ const queryClient = new QueryClient();
 
 const router = createRouter({
   routeTree,
-  context: {
-    queryClient,
-  },
+  context: { queryClient },
   scrollRestoration: false,
 });
 
-function App() {
-  return (
-    <div style={{ minHeight: "100vh" }}>
-      <RouterProvider router={router} />
-    </div>
-  );
-}
+const root = document.getElementById("root");
 
-ReactDOM.createRoot(document.getElementById("root")!).render(<App />);
+if (!root) throw new Error("Root not found");
+
+ReactDOM.createRoot(root).render(
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>,
+);
