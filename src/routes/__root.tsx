@@ -93,8 +93,10 @@ export const Route = createRootRouteWithContext<{
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Kipkirui John | Portfolio" },
+      { name: "description", content: "Portfolio of Kipkirui John" },
+      { property: "og:title", content: "Kipkirui John | Portfolio" },
+      { property: "og:description", content: "Software engineer portfolio" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
