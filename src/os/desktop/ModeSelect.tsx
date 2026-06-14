@@ -13,70 +13,48 @@ function Clock() {
   }, []);
 
   const seconds = time.getSeconds();
-  const minutes = time.getMinutes();
-  const hours = time.getHours();
-
-  const secDeg = seconds * 6;
-  const minDeg = minutes * 6 + seconds * 0.1;
-  const hourDeg = (hours % 12) * 30 + minutes * 0.5;
+  const rotation = seconds * 6;
 
   return (
     <div className="relative w-36 h-36 rounded-full border border-green-500/30 bg-black/40 shadow-[0_0_40px_rgba(0,255,100,0.12)] flex items-center justify-center">
-      {/* outer glow ring */}
+      {/* outer glow */}
       <div className="absolute inset-0 rounded-full animate-pulse bg-[radial-gradient(circle,rgba(0,255,100,0.08),transparent_70%)]" />
 
-      {/* clock center */}
+      {/* center dot */}
       <div className="absolute w-3 h-3 bg-green-400 rounded-full z-20 shadow-[0_0_10px_rgba(0,255,100,0.8)]" />
 
-      {/* ticks */}
-      {Array.from({ length: 60 }).map((_, i) => (
-        <div
-          key={i}
-          className="absolute w-[1px] bg-green-500/30 origin-bottom"
-          style={{
-            height: i % 5 === 0 ? "12px" : "6px",
-            transform: `rotate(${i * 6}deg) translateY(-65px)`,
-          }}
-        />
-      ))}
-
-      {/* numbers */}
+      {/* tick crosses (ONLY visual structure) */}
       {Array.from({ length: 12 }).map((_, i) => {
-        const angle = (i + 1) * 30;
+        const angle = i * 30;
+
         return (
           <div
             key={i}
-            className="absolute text-[11px] text-green-300 font-mono"
+            className="absolute flex items-center justify-center"
             style={{
-              transform: `rotate(${angle}deg) translateY(-50px) rotate(-${angle}deg)`,
+              transform: `rotate(${angle}deg) translateY(-65px)`,
             }}
           >
-            {i + 1}
+            {/* cross shape */}
+            <div className="relative w-[10px] h-[10px]">
+              <div className="absolute left-1/2 top-0 w-[2px] h-[10px] -translate-x-1/2 bg-green-500/40" />
+              <div className="absolute top-1/2 left-0 h-[2px] w-[10px] -translate-y-1/2 bg-green-500/40" />
+            </div>
           </div>
         );
       })}
 
-      {/* hour hand */}
+      {/* optional subtle rotating pulse ring (no hands) */}
       <div
-        className="absolute w-1.5 h-7 bg-green-400 rounded origin-bottom shadow-[0_0_12px_rgba(0,255,100,0.6)]"
-        style={{ transform: `rotate(${hourDeg}deg) translateY(-7px)` }}
-      />
-
-      {/* minute hand */}
-      <div
-        className="absolute w-[2px] h-10 bg-white rounded origin-bottom shadow-[0_0_10px_rgba(255,255,255,0.4)]"
-        style={{ transform: `rotate(${minDeg}deg) translateY(-10px)` }}
-      />
-
-      {/* second hand */}
-      <div
-        className="absolute w-[1px] h-12 bg-red-500 origin-bottom shadow-[0_0_12px_rgba(255,0,0,0.6)]"
-        style={{ transform: `rotate(${secDeg}deg) translateY(-12px)` }}
+        className="absolute w-24 h-24 border border-green-400/20 rounded-full"
+        style={{
+          transform: `rotate(${rotation}deg)`,
+          transition: "transform 1s linear",
+        }}
       />
     </div>
   );
 }
-
 /** =========================
  * MODE CARD COMPONENT
  * ========================= */

@@ -23,7 +23,9 @@ function Screen({
 }) {
   return (
     <div
-      className={`h-screen w-screen ${scroll ? "overflow-y-auto" : "overflow-hidden"} ${className}`}
+      className={`min-h-screen w-screen ${
+        scroll ? "overflow-y-auto" : "overflow-hidden"
+      } ${className}`}
     >
       {children}
     </div>
