@@ -117,6 +117,14 @@ function Particles() {
   );
 }
 
+/** Smooth‑scroll helper that never leaves # in the URL */
+function scrollToSection(id: string) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({ behavior: "smooth", block: "start" });
+  window.history.replaceState(null, "", window.location.pathname);
+}
+
 export function Hero({ onOpenTerminal }: { onOpenTerminal: () => void }) {
   const role = useTypedRole();
 
@@ -216,21 +224,21 @@ export function Hero({ onOpenTerminal }: { onOpenTerminal: () => void }) {
               not just interfaces.
             </p>
 
-            {/* Primary CTAs */}
+            {/* Primary CTAs – all internal navigation now uses smooth scrolling, no hash */}
             <div className="mt-10 flex flex-wrap items-center justify-center md:justify-start gap-3 animate-fade-in">
-              <a
-                href="#projects"
+              <button
+                onClick={() => scrollToSection("projects")}
                 className="group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-all hover:scale-[1.03] hover:shadow-[var(--shadow-glow)]"
               >
                 View Projects{" "}
                 <ExternalLink className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </a>
-              <a
-                href="#contact"
+              </button>
+              <button
+                onClick={() => scrollToSection("contact")}
                 className="group inline-flex items-center gap-2 rounded-md border border-primary/50 bg-primary/10 px-5 py-3 text-sm font-semibold text-primary transition-all hover:bg-primary hover:text-primary-foreground hover:scale-[1.02]"
               >
                 <Send className="h-4 w-4" /> Contact Me
-              </a>
+              </button>
               <a
                 href="/resume.pdf"
                 download
@@ -290,15 +298,15 @@ export function Hero({ onOpenTerminal }: { onOpenTerminal: () => void }) {
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <a
-        href="#identity"
+      {/* Scroll indicator – no hash, smooth scroll */}
+      <button
+        onClick={() => scrollToSection("identity")}
         aria-label="Scroll to next section"
         className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors"
       >
         <span className="text-[10px] uppercase tracking-[0.3em]">scroll</span>
         <ChevronDown className="h-4 w-4 animate-float-y" />
-      </a>
+      </button>
     </section>
   );
 }
