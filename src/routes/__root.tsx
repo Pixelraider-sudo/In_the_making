@@ -17,6 +17,7 @@ import { SystemLog } from "../lib/system-log";
 
 /* ✅ ADDED: Dev Overlay */
 import { DevOverlay } from "../components/pixelforge/DevOverlay";
+import { SystemHUD } from "../components/pixelforge/SystemHUD";
 
 /* ---------------------------
    NOT FOUND
@@ -48,8 +49,6 @@ function NotFoundComponent() {
    ERROR BOUNDARY (FIXED)
 --------------------------- */
 function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
-  console.error("App Error:", error);
-
   const router = useRouter();
 
   useEffect(() => {
@@ -129,20 +128,17 @@ export const Route = createRootRouteWithContext<{
 --------------------------- */
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
+    <>
+      <HeadContent />
 
-      <body>
-        {children}
+      {children}
 
-        {/* ✅ ADDED: Dev Overlay globally */}
-        <DevOverlay />
+      {/* Global overlays */}
+      <DevOverlay />
+      <SystemHUD />
 
-        <Scripts />
-      </body>
-    </html>
+      <Scripts />
+    </>
   );
 }
 

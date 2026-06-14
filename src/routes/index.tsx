@@ -1,54 +1,61 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
 
-import { Nav } from "@/components/pixelforge/Nav";
-import { Hero } from "@/components/pixelforge/Hero";
-import { Projects } from "@/components/pixelforge/Projects";
-import { Skills } from "@/components/pixelforge/Skills";
-import { Timeline } from "@/components/pixelforge/Timeline";
-import { Achievements } from "@/components/pixelforge/Achievements";
-import { Certifications } from "@/components/pixelforge/Certifications";
-import { Contact } from "@/components/pixelforge/Contact";
-import { Footer } from "@/components/pixelforge/Footer";
-import { Terminal } from "@/components/pixelforge/Terminal";
-import { BackToTop } from "@/components/pixelforge/BackToTop";
-import { AuroraBackground } from "@/components/pixelforge/AuroraBackground";
-import { ScrollProgress } from "@/components/pixelforge/ScrollProgress";
+import { BootScreen } from "../os/boot/BootScreen";
+import { ModeSelect } from "../os/desktop/ModeSelect";
+import { WebsiteApp } from "../app/WebsiteApp";
+import { OSApp } from "../app/OSApp";
+import { useOSStore } from "../os/store";
 
-function HomePage() {
-  const [terminalOpen, setTerminalOpen] = useState(false);
+export const Route = createFileRoute("/")({
+  component: App,
+});
+
+function App() {
+  const { mode, isBooting, transitioning } = useOSStore();
+
+  if (isBooting || mode === "boot") {
+    return (
+      <div
+        className={`h-screen w-screen transition-opacity duration-700 ${
+          transitioning ? "opacity-0" : "opacity-100"
+        }`}
+      >
+        <BootScreen />
+      </div>
+    );
+  }
+
+  if (mode === "select") {
+    return (
+      <div
+        className={`h-screen w-screen transition-all duration-700 ease-in-out ${
+          transitioning ? "opacity-0 scale-95 blur-sm" : "opacity-100 scale-100 blur-0"
+        }`}
+      >
+        <ModeSelect />
+      </div>
+    );
+  }
+
+  if (mode === "website") {
+    return (
+      <div className="h-screen w-screen animate-fade-in">
+        <WebsiteApp />
+      </div>
+    );
+  }
+
+  if (mode === "os") {
+    return (
+      <div className="h-screen w-screen animate-fade-in">
+        <OSApp />
+      </div>
+    );
+  }
 
   return (
-    <div className="relative min-h-screen bg-background text-foreground">
-      {/* Background effects */}
-      <AuroraBackground />
-      <ScrollProgress />
-
-      {/* Navigation */}
-      <Nav onOpenTerminal={() => setTerminalOpen(true)} />
-
-      {/* Main page content */}
-      <main>
-        <Hero onOpenTerminal={() => setTerminalOpen(true)} />
-
-        <Projects />
-        <Skills />
-        <Timeline />
-        <Achievements />
-        <Certifications />
-        <Contact />
-
-        <Footer />
-      </main>
-
-      {/* Overlays */}
-      <Terminal open={terminalOpen} onClose={() => setTerminalOpen(false)} />
-
-      <BackToTop />
+    <div className="h-screen w-screen flex items-center justify-center bg-black text-red-500 font-mono">
+      SYSTEM ERROR: INVALID MODE → {String(mode)}
     </div>
   );
 }
-
-export const Route = createFileRoute("/")({
-  component: HomePage,
-});
