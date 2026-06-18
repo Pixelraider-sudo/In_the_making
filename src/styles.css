@@ -207,3 +207,84 @@ body,
   overflow-x: hidden;
   overflow-y: auto;
 }
+
+/* ── Text selection ──────────────────────────────────────────────────────── */
+::selection {
+  background: oklch(0.82 0.16 200 / 0.25);
+  color: oklch(0.96 0.01 240);
+}
+::-moz-selection {
+  background: oklch(0.82 0.16 200 / 0.25);
+  color: oklch(0.96 0.01 240);
+}
+
+/* ── Scrollbar styling ───────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: oklch(0.16 0.03 270);
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(0.82 0.16 200 / 0.4);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.82 0.16 200 / 0.7);
+}
+
+/* ── Smooth scroll ───────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Section fade-in on scroll ───────────────────────────────────────────── */
+@keyframes section-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-animate {
+  opacity: 0;
+}
+.section-animate.in-view {
+  animation: section-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ── Glitch flicker (use on ASCII / logo elements) ───────────────────────── */
+@keyframes glitch {
+  0%,
+  100% {
+    clip-path: none;
+    transform: none;
+  }
+  20% {
+    clip-path: inset(20% 0 60% 0);
+    transform: translateX(-3px);
+  }
+  40% {
+    clip-path: inset(60% 0 20% 0);
+    transform: translateX(3px);
+  }
+  60% {
+    clip-path: none;
+    transform: none;
+  }
+}
+.animate-glitch:hover {
+  animation: glitch 0.4s steps(1) 1;
+}
+
+/* ── Focus ring override ─────────────────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid oklch(0.82 0.16 200 / 0.7);
+  outline-offset: 2px;
+  border-radius: 4px;
+}

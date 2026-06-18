@@ -1,105 +1,112 @@
-import React from "react";
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 
-import { BootScreen } from "../os/boot/BootScreen";
-import { ModeSelect } from "../os/desktop/ModeSelect";
-import { WebsiteApp } from "../app/WebsiteApp";
-import { OSApp } from "../app/OSApp";
-import { useOSStore } from "../os/store";
+import { Nav } from "@/components/pixelforge/Nav";
+import { Hero } from "@/components/pixelforge/Hero";
+import { Environment } from "@/components/pixelforge/Environment";
+import { Timeline } from "@/components/pixelforge/Timeline";
+import { Identity } from "@/components/pixelforge/Identity";
+import { Projects } from "@/components/pixelforge/Projects";
+import { Roadmap } from "@/components/pixelforge/Roadmap";
+import { Skills } from "@/components/pixelforge/Skills";
+import { Achievements } from "@/components/pixelforge/Achievements";
+import { Certifications } from "@/components/pixelforge/Certifications";
+import { Focus } from "@/components/pixelforge/Focus";
+import { DevLog } from "@/components/pixelforge/DevLog";
+import { Contact } from "@/components/pixelforge/Contact";
+import { Footer } from "@/components/pixelforge/Footer";
+import { Terminal } from "@/components/pixelforge/Terminal";
+import { usePixelCursor } from "@/components/pixelforge/usePixelCursor";
+import { ScrollProgress } from "@/components/pixelforge/ScrollProgress";
+import { BackToTop } from "@/components/pixelforge/BackToTop";
+import { KonamiEgg } from "@/components/pixelforge/KonamiEgg";
 
-/** =========================
- * SMART SCREEN WRAPPER
- * - Boot / Select / OS = locked viewport
- * - Website = scrollable
- * ========================= */
-function Screen({
-  children,
-  className = "",
-  scroll = false,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  scroll?: boolean;
-}) {
-  return (
-    <div
-      className={`min-h-screen w-screen ${
-        scroll ? "overflow-y-auto" : "overflow-hidden"
-      } ${className}`}
-    >
-      {children}
-    </div>
-  );
-}
+import { PageLoader } from "@/components/pixelforge/PageLoader";
 
 export const Route = createFileRoute("/")({
-  component: App,
+  head: () => ({
+    meta: [
+      { title: "Kipkirui John — Software Engineer" },
+      {
+        name: "description",
+        content:
+          "Portfolio of Kipkirui John — full-stack software engineer building React + TypeScript systems, AI-powered tools, and production-grade web platforms. Based in Nairobi, Kenya.",
+      },
+      {
+        property: "og:title",
+        content: "Kipkirui John — Software Engineer",
+      },
+      {
+        property: "og:description",
+        content:
+          "Full-stack engineer based in Nairobi. 10+ projects shipped. Founder of the PIXELFORGE ecosystem. Open to work.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "author", content: "Kipkirui John" },
+    ],
+  }),
+  component: Index,
 });
 
-function App() {
-  const { mode, isBooting, transitioning } = useOSStore();
+function Index() {
+  const [termOpen, setTermOpen] = useState(false);
+  const [booted, setBooted] = useState(false);
 
-  /** =========================
-   * BOOT SCREEN
-   * ========================= */
-  if (isBooting || mode === "boot") {
-    return (
-      <Screen
-        scroll={false}
-        className={`transition-opacity duration-700 ${transitioning ? "opacity-0" : "opacity-100"}`}
-      >
-        <BootScreen />
-      </Screen>
-    );
-  }
+  usePixelCursor();
 
-  /** =========================
-   * MODE SELECT
-   * ========================= */
-  if (mode === "select") {
-    return (
-      <Screen
-        scroll={false}
-        className={`transition-all duration-700 ease-in-out ${
-          transitioning ? "opacity-0 scale-95 blur-sm" : "opacity-100 scale-100 blur-0"
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setTermOpen((o) => !o);
+      } else if (e.key === "Escape") {
+        setTermOpen(false);
+      }
+    };
+
+    window.addEventListener("keydown", onKey);
+
+    return () => {
+      window.removeEventListener("keydown", onKey);
+    };
+  }, []);
+
+  return (
+    <>
+      <PageLoader onDone={() => setBooted(true)} />
+
+      <div
+        className={`min-h-screen transition-opacity duration-700 ${
+          booted ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
-        <ModeSelect />
-      </Screen>
-    );
-  }
+        <ScrollProgress />
 
-  /** =========================
-   * WEBSITE MODE (FIXED SCROLL 🔥)
-   * ========================= */
-  if (mode === "website") {
-    return (
-      <Screen scroll={true} className="animate-fade-in">
-        <WebsiteApp />
-      </Screen>
-    );
-  }
+        <Nav onOpenTerminal={() => setTermOpen(true)} />
 
-  /** =========================
-   * TERMINAL / OS MODE
-   * ========================= */
-  if (mode === "os") {
-    return (
-      <Screen scroll={false} className="animate-fade-in">
-        <OSApp />
-      </Screen>
-    );
-  }
+        <main>
+          <Hero onOpenTerminal={() => setTermOpen(true)} />
+          <Environment />
+          <Timeline />
+          <Identity />
+          <Projects />
+          <Roadmap />
+          <Skills />
+          <Achievements />
+          <Certifications />
+          <Focus />
+          <DevLog />
+          <Contact />
+        </main>
 
-  /** =========================
-   * FALLBACK SAFETY STATE
-   * ========================= */
-  return (
-    <Screen
-      scroll={false}
-      className="flex items-center justify-center bg-black text-red-500 font-mono"
-    >
-      SYSTEM ERROR: INVALID MODE → {String(mode)}
-    </Screen>
+        <Footer />
+
+        <Terminal open={termOpen} onClose={() => setTermOpen(false)} />
+
+        <BackToTop />
+        <KonamiEgg />
+      </div>
+    </>
   );
 }

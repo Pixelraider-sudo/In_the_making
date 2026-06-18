@@ -4,19 +4,20 @@ import {
   ExternalLink,
   Terminal as TerminalIcon,
   Download,
-  Mail,
-  MessageCircle,
-  Send,
-  ChevronDown,
+  Code2,
+  Cpu,
+  Globe,
 } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 const ROLES = [
-  "software engineer",
-  "full-stack builder",
-  "React + TypeScript dev",
-  "systems thinker",
-  "lifelong learner",
+  "full-stack engineer",
+  "software architect",
+  "React + TypeScript expert",
+  "API & systems builder",
+  "UI/UX engineer",
+  "AI integration specialist",
+  "open-source contributor",
 ];
 
 function useTypedRole() {
@@ -25,12 +26,12 @@ function useTypedRole() {
   const [del, setDel] = useState(false);
   useEffect(() => {
     const full = ROLES[i];
-    const speed = del ? 45 : 75;
+    const speed = del ? 35 : 70;
     const t = setTimeout(() => {
       if (!del) {
         const next = full.slice(0, text.length + 1);
         setText(next);
-        if (next === full) setTimeout(() => setDel(true), 1200);
+        if (next === full) setTimeout(() => setDel(true), 1600);
       } else {
         const next = full.slice(0, text.length - 1);
         setText(next);
@@ -45,102 +46,30 @@ function useTypedRole() {
   return text;
 }
 
-/** Lightweight floating particle field — no extra deps, respects reduced motion. */
-function Particles() {
-  const ref = useRef<HTMLCanvasElement | null>(null);
-  useEffect(() => {
-    const canvas = ref.current;
-    if (!canvas) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    let raf = 0;
-    let w = 0;
-    let h = 0;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
-
-    const resize = () => {
-      const rect = canvas.getBoundingClientRect();
-      w = rect.width;
-      h = rect.height;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    };
-    resize();
-
-    const N = Math.min(60, Math.floor((window.innerWidth * window.innerHeight) / 28000));
-    const parts = Array.from({ length: N }, () => ({
-      x: Math.random() * w,
-      y: Math.random() * h,
-      r: Math.random() * 1.4 + 0.3,
-      vx: (Math.random() - 0.5) * 0.18,
-      vy: -Math.random() * 0.25 - 0.05,
-      a: Math.random() * 0.5 + 0.2,
-    }));
-
-    const tick = () => {
-      ctx.clearRect(0, 0, w, h);
-      for (const p of parts) {
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.y < -4) {
-          p.y = h + 4;
-          p.x = Math.random() * w;
-        }
-        if (p.x < -4) p.x = w + 4;
-        if (p.x > w + 4) p.x = -4;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 190, 120, ${p.a})`;
-        ctx.fill();
-      }
-      raf = requestAnimationFrame(tick);
-    };
-    tick();
-
-    const onResize = () => resize();
-    window.addEventListener("resize", onResize);
-    return () => {
-      cancelAnimationFrame(raf);
-      window.removeEventListener("resize", onResize);
-    };
-  }, []);
-  return (
-    <canvas
-      ref={ref}
-      aria-hidden
-      className="absolute inset-0 h-full w-full pointer-events-none opacity-70"
-    />
-  );
-}
-
-/** Smooth‑scroll helper that never leaves # in the URL */
-function scrollToSection(id: string) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.scrollIntoView({ behavior: "smooth", block: "start" });
-  window.history.replaceState(null, "", window.location.pathname);
-}
+const STATS = [
+  { k: "projects shipped", v: "10+", icon: Code2 },
+  { k: "years building", v: "3+", icon: Cpu },
+  { k: "live deployments", v: "5+", icon: Globe },
+  { k: "status", v: "open to work", icon: null },
+];
 
 export function Hero({ onOpenTerminal }: { onOpenTerminal: () => void }) {
   const role = useTypedRole();
+  const [uptime, setUptime] = useState("");
 
-  // Replace these with your real contact details
-  const EMAIL = "kipkiruijohn3@gmail.com";
-  const PHONE_INTL = "254714264297"; // E.164 without '+'
-
-  const links = useMemo(
-    () => ({
-      email: `mailto:${EMAIL}`,
-      whatsapp: `https://wa.me/${PHONE_INTL}`,
-      github: "https://github.com",
-      linkedin: "https://linkedin.com",
-    }),
-    [],
-  );
+  useEffect(() => {
+    const start = new Date("2022-01-01").getTime();
+    const tick = () => {
+      const diff = Date.now() - start;
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      setUptime(`${d}d ${h}h ${m}m`);
+    };
+    tick();
+    const id = setInterval(tick, 60000);
+    return () => clearInterval(id);
+  }, []);
 
   return (
     <section
@@ -148,103 +77,80 @@ export function Hero({ onOpenTerminal }: { onOpenTerminal: () => void }) {
       className="relative overflow-hidden border-b border-border"
       style={{ background: "var(--gradient-glow)" }}
     >
-      {/* Layered atmosphere */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/60 via-transparent to-background/80 pointer-events-none" />
-      <div className="absolute inset-0 scanlines pointer-events-none opacity-30" />
-      <Particles />
+      <div className="absolute inset-0 scanlines pointer-events-none" />
 
-      {/* Drifting orbs */}
+      {/* Animated grid backdrop */}
       <div
-        aria-hidden
-        className="absolute -top-32 -left-24 h-80 w-80 rounded-full blur-3xl opacity-40 animate-float-y"
+        className="absolute inset-0 pointer-events-none opacity-20"
         style={{
-          background: "radial-gradient(circle, oklch(0.78 0.17 60 / 0.45), transparent 70%)",
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute bottom-0 right-0 h-96 w-96 rounded-full blur-3xl opacity-30 animate-float-y"
-        style={{
-          background: "radial-gradient(circle, oklch(0.70 0.20 35 / 0.35), transparent 70%)",
-          animationDelay: "1.2s",
+          backgroundImage:
+            "linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px)",
+          backgroundSize: "40px 40px",
         }}
       />
 
-      <div className="relative mx-auto max-w-6xl px-6 pt-20 pb-24 md:pt-28 md:pb-32">
-        <div className="flex flex-col md:flex-row md:items-center gap-12 md:gap-16">
-          {/* PROFILE */}
-          <div className="shrink-0 mx-auto md:mx-0 animate-fade-in">
-            <div className="relative h-40 w-40 md:h-48 md:w-48 group">
-              <div
-                className="absolute inset-0 rounded-full blur-2xl opacity-50 animate-pulse-glow"
-                style={{
-                  background:
-                    "radial-gradient(circle, oklch(0.78 0.17 60 / 0.45), transparent 70%)",
-                }}
-              />
-              <div
-                className="absolute -inset-1 rounded-full opacity-60 animate-spin-slow"
-                style={{
-                  background:
-                    "conic-gradient(from 0deg, oklch(0.78 0.17 60), oklch(0.70 0.20 35), oklch(0.85 0.16 85), oklch(0.78 0.17 60))",
-                }}
-              />
-              <div className="absolute inset-0 rounded-full border border-white/10 shadow-[0_0_35px_rgba(255,170,80,0.18)]" />
-              <div className="relative h-full w-full rounded-full overflow-hidden bg-card border-2 border-background transition-transform duration-500 group-hover:scale-[1.03]">
-                <img
-                  src="/profile.jpeg"
-                  alt="Kipkirui John"
-                  className="h-full w-full object-cover scale-[1.02]"
-                  loading="eager"
-                  decoding="async"
-                />
-              </div>
+      <div className="mx-auto max-w-6xl px-6 pt-24 pb-28 md:pt-36 md:pb-36">
+        <div className="flex flex-col md:flex-row md:items-start gap-10 md:gap-16">
+          {/* Profile */}
+          <div className="shrink-0 mx-auto md:mx-0 flex flex-col items-center gap-3">
+            <div className="relative h-36 w-36 md:h-44 md:w-44 rounded-full border-2 border-primary/50 overflow-hidden shadow-[var(--shadow-glow)]">
+              <img src="/profile.jpg" alt="Kipkirui John" className="h-full w-full object-cover" />
+              <div className="absolute inset-0 rounded-full ring-2 ring-primary/20 ring-offset-2 ring-offset-background" />
             </div>
+            {/* Availability badge */}
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-green-500/30 bg-green-500/10 px-3 py-1 text-[10px] font-mono uppercase tracking-widest text-green-400">
+              <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
+              available for hire
+            </span>
           </div>
 
-          {/* CONTENT */}
           <div className="flex-1 text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-start gap-2 text-xs uppercase tracking-[0.3em] text-muted-foreground mb-5 animate-fade-in">
+            {/* Status line */}
+            <div className="flex items-center justify-center md:justify-start gap-2 text-xs uppercase tracking-[0.3em] text-muted-foreground mb-5">
               <span className="h-2 w-2 rounded-full bg-primary animate-pulse-glow" />
-              system.online · identity.active
+              system.online · kipkiruijohn://identity · uptime: {uptime}
             </div>
 
-            <h1 className="font-[Space_Grotesk] text-4xl md:text-7xl font-bold leading-[1.05] tracking-tight animate-fade-in">
-              Hi, I'm <span className="text-gradient-forge">Kipkirui John</span>
-              <br />a <span className="text-gradient-forge">software engineer</span> in the making.
+            <h1 className="font-[Space_Grotesk] text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight">
+              Kipkirui <span className="text-gradient-forge">John</span>
+              <br />
+              <span className="text-4xl md:text-5xl text-foreground/80">Software Engineer</span>
             </h1>
 
+            {/* Typewriter */}
             <div className="mt-4 font-mono text-sm md:text-base text-muted-foreground">
-              &gt; role := <span className="text-primary font-semibold">{role}</span>
-              <span className="caret text-primary">▍</span>
+              <span className="text-primary/60">$</span>{" "}
+              <span className="text-primary/80">role</span>
+              <span className="text-muted-foreground/60"> = </span>
+              <span className="text-primary">"{role}"</span>
+              <span className="caret text-primary animate-pulse">▍</span>
             </div>
 
-            <p className="mt-6 max-w-xl text-base md:text-lg text-muted-foreground leading-relaxed animate-fade-in">
-              Software engineering student building toward full-stack mastery. I design systems —
-              not just interfaces.
+            {/* Tagline */}
+            <p className="mt-6 max-w-2xl text-base md:text-lg text-muted-foreground leading-relaxed">
+              I design and ship{" "}
+              <span className="text-foreground font-medium">full-stack systems</span> — from
+              pixel-perfect interfaces to production-grade APIs, databases, and AI-powered tools.
+              Based in Nairobi. Building the{" "}
+              <span className="text-primary font-mono">PIXELFORGE</span> ecosystem and taking on
+              client work that demands engineering precision.
             </p>
 
-            {/* Primary CTAs – all internal navigation now uses smooth scrolling, no hash */}
-            <div className="mt-10 flex flex-wrap items-center justify-center md:justify-start gap-3 animate-fade-in">
-              <button
-                onClick={() => scrollToSection("projects")}
-                className="group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-all hover:scale-[1.03] hover:shadow-[var(--shadow-glow)]"
+            {/* CTA row */}
+            <div className="mt-10 flex flex-wrap items-center gap-3">
+              <a
+                href="#projects"
+                className="group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-all hover:scale-[1.02] hover:shadow-[var(--shadow-glow)]"
               >
-                View Projects{" "}
-                <ExternalLink className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </button>
-              <button
-                onClick={() => scrollToSection("contact")}
-                className="group inline-flex items-center gap-2 rounded-md border border-primary/50 bg-primary/10 px-5 py-3 text-sm font-semibold text-primary transition-all hover:bg-primary hover:text-primary-foreground hover:scale-[1.02]"
-              >
-                <Send className="h-4 w-4" /> Contact Me
-              </button>
+                View work{" "}
+                <ExternalLink className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+              </a>
               <a
                 href="/resume.pdf"
                 download
-                className="inline-flex items-center gap-2 rounded-md border border-border bg-card/60 px-5 py-3 text-sm font-semibold text-foreground backdrop-blur transition-colors hover:border-primary hover:text-primary"
+                className="inline-flex items-center gap-2 rounded-md border border-primary/50 bg-primary/10 px-5 py-3 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
               >
-                <Download className="h-4 w-4" /> Resume
+                <Download className="h-4 w-4" /> Resume / CV
               </a>
               <button
                 onClick={onOpenTerminal}
@@ -255,58 +161,63 @@ export function Hero({ onOpenTerminal }: { onOpenTerminal: () => void }) {
                   Ctrl K
                 </kbd>
               </button>
+              <a
+                href="https://github.com/Kipkirui-John"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-md border border-border bg-card/60 text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+                aria-label="GitHub"
+              >
+                <Github className="h-4 w-4" />
+              </a>
+              <a
+                href="https://linkedin.com/in/kipkirui-john"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-md border border-border bg-card/60 text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+                aria-label="LinkedIn"
+              >
+                <Linkedin className="h-4 w-4" />
+              </a>
             </div>
 
-            {/* Social / quick contact row */}
-            <div className="mt-4 flex flex-wrap items-center justify-center md:justify-start gap-2">
-              {[
-                { href: links.github, label: "GitHub", Icon: Github },
-                { href: links.linkedin, label: "LinkedIn", Icon: Linkedin },
-                { href: links.email, label: "Email", Icon: Mail },
-                { href: links.whatsapp, label: "WhatsApp", Icon: MessageCircle },
-              ].map(({ href, label, Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target={href.startsWith("http") ? "_blank" : undefined}
-                  rel="noreferrer"
-                  aria-label={label}
-                  className="inline-flex h-11 w-11 items-center justify-center rounded-md border border-border bg-card/60 text-muted-foreground transition-all hover:border-primary hover:text-primary hover:-translate-y-0.5"
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              ))}
-            </div>
-
-            {/* Stat strip */}
-            <div className="mt-14 grid grid-cols-2 md:grid-cols-4 gap-px rounded-xl border border-border bg-border overflow-hidden">
-              {[
-                { k: "uptime", v: "since 2024" },
-                { k: "stack", v: "React · TS · Vite" },
-                { k: "focus", v: "full-stack" },
-                { k: "status", v: "shipping" },
-              ].map((s) => (
-                <div key={s.k} className="bg-card p-4 transition-colors hover:bg-card/70">
+            {/* Stats grid */}
+            <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-px overflow-hidden rounded-lg border border-border bg-border">
+              {STATS.map((s) => (
+                <div key={s.k} className="bg-card p-5 flex flex-col gap-1">
                   <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
                     {s.k}
                   </div>
-                  <div className="mt-1 text-sm font-semibold text-foreground">{s.v}</div>
+                  <div className="mt-1 text-xl font-bold text-foreground font-mono">{s.v}</div>
                 </div>
+              ))}
+            </div>
+
+            {/* Quick-skill row */}
+            <div className="mt-6 flex flex-wrap gap-2">
+              {[
+                "React",
+                "TypeScript",
+                "Node.js",
+                "PostgreSQL",
+                "Tailwind",
+                "Vite",
+                "REST APIs",
+                "AI/LLM",
+                "Vercel",
+                "Git",
+              ].map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-md border border-border bg-background/60 px-2.5 py-1 text-[11px] font-mono text-muted-foreground hover:border-primary hover:text-primary transition-colors cursor-default"
+                >
+                  {tag}
+                </span>
               ))}
             </div>
           </div>
         </div>
       </div>
-
-      {/* Scroll indicator – no hash, smooth scroll */}
-      <button
-        onClick={() => scrollToSection("identity")}
-        aria-label="Scroll to next section"
-        className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-muted-foreground hover:text-primary transition-colors"
-      >
-        <span className="text-[10px] uppercase tracking-[0.3em]">scroll</span>
-        <ChevronDown className="h-4 w-4 animate-float-y" />
-      </button>
     </section>
   );
 }
