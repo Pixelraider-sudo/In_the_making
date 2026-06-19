@@ -24,7 +24,7 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
       return;
     }
 
-    const totalDuration = 2800;
+    const totalDuration = 5500;
     const interval = totalDuration / BOOT_LINES.length;
 
     BOOT_LINES.forEach((line, i) => {
@@ -38,8 +38,8 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
             setTimeout(() => {
               (window as Window & { __pfBooted?: boolean }).__pfBooted = true;
               onDone();
-            }, 600);
-          }, 500);
+            }, 800);
+          }, 900);
         }
       }, i * interval);
     });
@@ -47,9 +47,8 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
 
   return (
     <div
-      className={`fixed inset-0 z-[999] flex flex-col items-center justify-center bg-background transition-opacity duration-500 ${
-        fading ? "opacity-0 pointer-events-none" : "opacity-100"
-      }`}
+      className={`fixed inset-0 z-[999] flex flex-col items-center justify-center bg-background transition-opacity duration-500 ${fading ? "opacity-0 pointer-events-none" : "opacity-100"
+        }`}
     >
       {/* Scanlines */}
       <div className="absolute inset-0 scanlines pointer-events-none" />
@@ -71,45 +70,80 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
       />
 
       <div className="relative z-10 w-full max-w-xl px-6">
-        {/* ── NAME BLOCK ─────────────────────────────────────── */}
-        <div
-          className="mb-10 text-center select-none"
-          style={{ fontFamily: "'Georgia', 'Times New Roman', serif" }}
-        >
-          {/* KIPKIRUI — large, italic, gradient */}
+
+        {/* ── NAME BLOCK ── */}
+        <div className="mb-10 text-center select-none">
+
+          {/* Decorative top line */}
           <div
             style={{
-              fontSize: "clamp(2.6rem, 10vw, 4.5rem)",
-              fontWeight: 900,
-              fontStyle: "italic",
-              letterSpacing: "0.06em",
-              lineHeight: 1,
-              transform: "skewX(-6deg)",
-              display: "inline-block",
-              background: "var(--gradient-forge)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: "0.6rem",
+              letterSpacing: "0.6em",
+              textTransform: "uppercase",
+              color: "oklch(0.82 0.16 200 / 0.4)",
+              marginBottom: "0.75rem",
             }}
           >
-            BUILDING
+            ── portfolio.v2 ──
           </div>
 
-          {/* JOHN — smaller, same slant, slightly dimmer */}
+          {/* BUILDING — large, italic, glitch effect */}
+          <div style={{ position: "relative", display: "inline-block" }}>
+            {/* Glitch shadow layer */}
+            <div
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                top: 0,
+                left: "3px",
+                fontSize: "clamp(3rem, 12vw, 5.5rem)",
+                fontFamily: "'Georgia', 'Times New Roman', serif",
+                fontWeight: 700,
+                fontStyle: "italic",
+                letterSpacing: "-0.01em",
+                lineHeight: 1,
+                color: "oklch(0.65 0.22 300 / 0.45)",
+                userSelect: "none",
+                pointerEvents: "none",
+              }}
+            >
+              BUILDING
+            </div>
+            {/* Main text */}
+            <div
+              style={{
+                fontSize: "clamp(3rem, 12vw, 5.5rem)",
+                fontFamily: "'Georgia', 'Times New Roman', serif",
+                fontWeight: 700,
+                fontStyle: "italic",
+                letterSpacing: "-0.01em",
+                lineHeight: 1,
+                background: "linear-gradient(135deg, oklch(0.82 0.16 200), oklch(0.65 0.22 300))",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                position: "relative",
+              }}
+            >
+              BUILDING
+            </div>
+          </div>
+
+          {/* BEYOND LIMITS — smaller, spaced, italic */}
           <div
             style={{
-              fontSize: "clamp(1.6rem, 6vw, 2.8rem)",
-              fontWeight: 900,
+              fontSize: "clamp(1.4rem, 5.5vw, 2.6rem)",
+              fontFamily: "'Georgia', 'Times New Roman', serif",
+              fontWeight: 700,
               fontStyle: "italic",
-              letterSpacing: "0.18em",
-              lineHeight: 1.1,
-              transform: "skewX(-6deg)",
-              display: "inline-block",
-              background: "var(--gradient-forge)",
+              letterSpacing: "0.35em",
+              lineHeight: 1.2,
+              marginTop: "-0.1em",
+              background: "linear-gradient(135deg, oklch(0.82 0.16 200 / 0.8), oklch(0.65 0.22 300 / 0.8))",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
-              opacity: 0.7,
             }}
           >
             BEYOND LIMITS
@@ -118,21 +152,21 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
           {/* Subtitle */}
           <div
             style={{
-              marginTop: "0.6rem",
+              marginTop: "0.8rem",
               fontFamily: "'JetBrains Mono', ui-monospace, monospace",
-              fontStyle: "normal",
-              fontSize: "0.65rem",
+              fontSize: "0.62rem",
               letterSpacing: "0.45em",
               textTransform: "uppercase",
-              color: "oklch(0.7 0.03 250 / 0.5)",
+              color: "oklch(0.7 0.03 250 / 0.45)",
             }}
           >
             software engineer · nairobi, kenya
           </div>
         </div>
 
-        {/* ── TERMINAL CARD ──────────────────────────────────── */}
+        {/* ── TERMINAL CARD ── */}
         <div className="rounded-lg border border-border bg-card overflow-hidden">
+
           {/* Window chrome */}
           <div className="flex items-center gap-1.5 border-b border-border bg-background/50 px-4 py-2.5">
             <span className="h-2.5 w-2.5 rounded-full bg-red-500/70" />
@@ -148,9 +182,15 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
             {lines.map((line, i) => (
               <div key={i} className="flex items-start gap-2 font-mono text-xs">
                 <span className="text-primary shrink-0 select-none">$</span>
-                <span className={i === lines.length - 1 ? "text-primary" : "text-muted-foreground"}>
+                <span
+                  className={
+                    i === lines.length - 1 ? "text-primary" : "text-muted-foreground"
+                  }
+                >
                   {line}
-                  {i === lines.length - 1 && <span className="caret text-primary ml-0.5">▍</span>}
+                  {i === lines.length - 1 && (
+                    <span className="caret text-primary ml-0.5">▍</span>
+                  )}
                 </span>
               </div>
             ))}
@@ -169,7 +209,7 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
                 className="h-full rounded-full transition-all duration-300 ease-out"
                 style={{
                   width: `${progress}%`,
-                  background: "var(--gradient-forge)",
+                  background: "linear-gradient(90deg, oklch(0.82 0.16 200), oklch(0.65 0.22 300))",
                 }}
               />
             </div>
@@ -177,9 +217,10 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
         </div>
 
         {/* Footer */}
-        <p className="mt-5 text-center text-[10px] font-mono text-muted-foreground/40 select-none tracking-widest uppercase">
+        <p className="mt-5 text-center text-[10px] font-mono text-muted-foreground/35 select-none tracking-[0.5em] uppercase">
           build beyond limits
         </p>
+
       </div>
     </div>
   );
