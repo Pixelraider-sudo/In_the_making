@@ -1,5 +1,6 @@
 import { Section } from "./Section";
-import { Github, ExternalLink, Star } from "lucide-react";
+import { Github, ExternalLink, Star, BookOpen } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 
 type Tag = "all" | "ai" | "full-stack" | "client" | "frontend" | "open-source";
@@ -14,6 +15,8 @@ type Project = {
   repo?: string;
   featured?: boolean;
   status: "live" | "wip" | "shipped";
+  /** Slug of a matching entry in data/case-studies/ — adds a "Case study" link when set. */
+  caseStudySlug?: string;
 };
 
 const PROJECTS: Project[] = [
@@ -217,6 +220,15 @@ export function Projects() {
 
                 {/* Links */}
                 <div className="mt-auto flex flex-wrap gap-2 pt-5">
+                  {p.caseStudySlug && (
+                    <Link
+                      to="/projects/$slug"
+                      params={{ slug: p.caseStudySlug }}
+                      className="inline-flex items-center gap-1.5 rounded-md border border-primary/50 bg-primary/5 px-3 py-1.5 text-xs font-semibold text-primary transition-colors hover:bg-primary/10"
+                    >
+                      Case study <BookOpen className="h-3 w-3" />
+                    </Link>
+                  )}
                   {p.live && (
                     <a
                       href={p.live}
