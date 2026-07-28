@@ -20,6 +20,7 @@ import { usePixelCursor } from "@/components/pixelforge/usePixelCursor";
 import { ScrollProgress } from "@/components/pixelforge/ScrollProgress";
 import { BackToTop } from "@/components/pixelforge/BackToTop";
 import { KonamiEgg } from "@/components/pixelforge/KonamiEgg";
+import { EngineeringModeProvider, useEngineeringMode } from "@/lib/engineering-mode";
 
 import { PageLoader } from "@/components/pixelforge/PageLoader";
 
@@ -50,12 +51,28 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  return (
+    <EngineeringModeProvider>
+      <IndexContent />
+    </EngineeringModeProvider>
+  );
+}
+
+function IndexContent() {
   const [termOpen, setTermOpen] = useState(false);
   const [booted, setBooted] = useState(false);
+  const { enabled: engineeringMode } = useEngineeringMode();
 
   usePixelCursor();
 
   useEffect(() => {
+    // The terminal (and its Ctrl/Cmd+K shortcut) is one of the
+    // "engineering extras" — only listen for the shortcut once
+    // Engineering Mode is switched on, so it doesn't silently do
+    // nothing (or worse, something unexpected) for visitors who
+    // haven't opted in.
+    if (!engineeringMode) return;
+
     const onKey = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
@@ -70,7 +87,7 @@ function Index() {
     return () => {
       window.removeEventListener("keydown", onKey);
     };
-  }, []);
+  }, [engineeringMode]);
 
   return (
     <>
@@ -102,10 +119,10 @@ function Index() {
 
         <Footer />
 
-        <Terminal open={termOpen} onClose={() => setTermOpen(false)} />
+        {engineeringMode && <Terminal open={termOpen} onClose={() => setTermOpen(false)} />}
 
         <BackToTop />
-        <KonamiEgg />
+        {engineeringMode && <KonamiEgg />}
       </div>
     </>
   );

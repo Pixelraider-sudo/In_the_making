@@ -75,7 +75,7 @@ export function ScrollProgress() {
             >
               {/* Label tooltip */}
               <span
-                className={`text-[9px] font-mono uppercase tracking-widest transition-all duration-200 ${
+                className={`text-4xs font-mono uppercase tracking-widest transition-all duration-200 ${
                   isActive
                     ? "opacity-100 text-primary translate-x-0"
                     : "opacity-0 group-hover:opacity-100 text-muted-foreground translate-x-2 group-hover:translate-x-0"
@@ -97,7 +97,7 @@ export function ScrollProgress() {
         })}
 
         {/* % label at bottom */}
-        <div className="mt-1 text-right text-[9px] font-mono text-muted-foreground/50">
+        <div className="mt-1 text-right text-4xs font-mono text-muted-foreground/50">
           {Math.round(p)}%
         </div>
       </div>

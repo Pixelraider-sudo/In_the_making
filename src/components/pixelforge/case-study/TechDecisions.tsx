@@ -61,7 +61,7 @@ export function TechDecisions({ data }: { data: TechDecision[] }) {
                         {decision.alternativesConsidered.map((alt) => (
                           <li
                             key={alt}
-                            className="rounded border border-border bg-background/60 px-2 py-0.5 font-mono text-[11px] text-muted-foreground"
+                            className="rounded border border-border bg-background/60 px-2 py-0.5 font-mono text-2xs text-muted-foreground"
                           >
                             {alt}
                           </li>

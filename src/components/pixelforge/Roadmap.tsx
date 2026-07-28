@@ -100,13 +100,13 @@ export function Roadmap() {
                   branch
                 </div>
                 <div
-                  className={`mt-1 text-lg font-semibold ${b.done ? "text-foreground" : "text-muted-foreground/50"}`}
+                  className={`mt-1 text-title-md ${b.done ? "text-foreground" : "text-muted-foreground/50"}`}
                 >
                   {b.stage}
                 </div>
                 {b.note && (
                   <div
-                    className={`mt-1 text-[10px] font-mono ${
+                    className={`mt-1 text-3xs font-mono ${
                       b.active
                         ? "text-primary"
                         : b.done
@@ -146,7 +146,7 @@ export function Roadmap() {
 
       {/* PIXELFORGE divisions mini-tree */}
       <div className="mt-10 rounded-lg border border-border bg-card/50 p-5">
-        <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">
+        <div className="text-3xs font-mono uppercase tracking-widest text-muted-foreground mb-4">
           pixelforge :: 9-division ecosystem
         </div>
         <div className="grid grid-cols-3 md:grid-cols-5 gap-2">

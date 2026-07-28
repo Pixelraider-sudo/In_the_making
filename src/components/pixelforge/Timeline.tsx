@@ -52,14 +52,10 @@ export function Timeline() {
               >
                 <Icon className="h-4 w-4" />
               </span>
-              <div className="text-xs uppercase tracking-widest text-muted-foreground">
-                {n.year}
-              </div>
-              <h3 className="mt-1 text-xl font-semibold text-foreground">{n.role}</h3>
+              <div className="text-overline uppercase text-muted-foreground">{n.year}</div>
+              <h3 className="mt-1 text-title-md text-foreground">{n.role}</h3>
               <div className="text-sm text-primary font-mono">{n.place}</div>
-              <p className="mt-3 max-w-2xl text-sm text-muted-foreground leading-relaxed">
-                {n.note}
-              </p>
+              <p className="mt-3 max-w-prose text-body-md text-muted-foreground">{n.note}</p>
             </li>
           );
         })}

@@ -88,7 +88,7 @@ export function Contact() {
             >
               <Download className="h-4 w-4" /> Download résumé / CV
             </a>
-            <span className="text-[11px] font-mono text-muted-foreground">
+            <span className="text-2xs font-mono text-muted-foreground">
               PDF · updated {new Date().getFullYear()}
             </span>
           </div>
@@ -113,7 +113,7 @@ export function Contact() {
                       <span className="text-xs uppercase tracking-widest">{l.label}</span>
                     </div>
                     {l.preferred && (
-                      <span className="text-[9px] font-mono text-green-400 uppercase tracking-widest">
+                      <span className="text-4xs font-mono text-green-400 uppercase tracking-widest">
                         preferred
                       </span>
                     )}
@@ -142,7 +142,7 @@ export function Contact() {
 
         {/* Right — open to */}
         <div className="rounded-lg border border-border bg-card p-5 min-w-[220px]">
-          <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-4">
+          <div className="text-3xs font-mono uppercase tracking-widest text-muted-foreground mb-4">
             open to →
           </div>
           <ul className="space-y-2">
@@ -156,7 +156,7 @@ export function Contact() {
 
           {/* Response time */}
           <div className="mt-6 border-t border-border pt-4">
-            <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-2">
+            <div className="text-3xs font-mono uppercase tracking-widest text-muted-foreground mb-2">
               response time
             </div>
             <div className="flex items-center gap-2">

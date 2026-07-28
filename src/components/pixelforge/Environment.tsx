@@ -86,7 +86,7 @@ export function Environment() {
                 <div className="flex h-9 w-9 items-center justify-center rounded-md bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors">
                   <Icon className="h-4 w-4" />
                 </div>
-                <h3 className="text-lg font-semibold">{c.title}</h3>
+                <h3 className="text-title-md">{c.title}</h3>
               </div>
 
               <p className="relative mt-2 text-sm text-muted-foreground leading-relaxed">

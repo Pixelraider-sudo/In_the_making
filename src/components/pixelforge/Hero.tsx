@@ -9,6 +9,9 @@ import {
   Globe,
 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Button } from "./ui/Button";
+import { Badge } from "./ui/Badge";
+import { useEngineeringMode } from "@/lib/engineering-mode";
 
 const ROLES = [
   "full-stack engineer",
@@ -54,6 +57,7 @@ const STATS = [
 ];
 
 export function Hero({ onOpenTerminal }: { onOpenTerminal: () => void }) {
+  const { enabled: engineeringMode } = useEngineeringMode();
   const role = useTypedRole();
   const [uptime, setUptime] = useState("");
 
@@ -98,7 +102,7 @@ export function Hero({ onOpenTerminal }: { onOpenTerminal: () => void }) {
               <div className="absolute inset-0 rounded-full ring-2 ring-primary/20 ring-offset-2 ring-offset-background" />
             </div>
             {/* Availability badge */}
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-green-500/30 bg-green-500/10 px-3 py-1 text-[10px] font-mono uppercase tracking-widest text-green-400">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-green-500/30 bg-green-500/10 px-3 py-1 text-label font-mono uppercase text-green-400">
               <span className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
               available for hire
             </span>
@@ -106,15 +110,15 @@ export function Hero({ onOpenTerminal }: { onOpenTerminal: () => void }) {
 
           <div className="flex-1 text-center md:text-left">
             {/* Status line */}
-            <div className="flex items-center justify-center md:justify-start gap-2 text-xs uppercase tracking-[0.3em] text-muted-foreground mb-5">
+            <div className="flex items-center justify-center md:justify-start gap-2 text-overline uppercase text-muted-foreground mb-5">
               <span className="h-2 w-2 rounded-full bg-primary animate-pulse-glow" />
               system.online · kipkiruijohn://identity · uptime: {uptime}
             </div>
 
-            <h1 className="font-[Space_Grotesk] text-5xl md:text-7xl font-bold leading-[1.05] tracking-tight">
+            <h1 className="font-[Space_Grotesk] text-display-xl tracking-tight">
               Kipkirui <span className="text-gradient-forge">John</span>
               <br />
-              <span className="text-4xl md:text-5xl text-foreground/80">Software Engineer</span>
+              <span className="text-display-lg text-foreground/80">Software Engineer</span>
             </h1>
 
             {/* Typewriter */}
@@ -127,7 +131,7 @@ export function Hero({ onOpenTerminal }: { onOpenTerminal: () => void }) {
             </div>
 
             {/* Tagline */}
-            <p className="mt-6 max-w-2xl text-base md:text-lg text-muted-foreground leading-relaxed">
+            <p className="mt-6 max-w-prose text-body-lg text-muted-foreground">
               I design and ship{" "}
               <span className="text-foreground font-medium">full-stack systems</span> — from
               pixel-perfect interfaces to production-grade APIs, databases, and AI-powered tools.
@@ -138,56 +142,48 @@ export function Hero({ onOpenTerminal }: { onOpenTerminal: () => void }) {
 
             {/* CTA row */}
             <div className="mt-10 flex flex-wrap items-center gap-3">
-              <a
-                href="#projects"
-                className="group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground transition-all hover:scale-[1.02] hover:shadow-[var(--shadow-glow)]"
-              >
-                View work{" "}
-                <ExternalLink className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
-              </a>
-              <a
-                href="/resume.pdf"
-                download
-                className="inline-flex items-center gap-2 rounded-md border border-primary/50 bg-primary/10 px-5 py-3 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
-              >
+              <Button href="#projects" variant="primary">
+                View work
+                <ExternalLink className="h-4 w-4 transition-standard group-hover:translate-x-0.5" />
+              </Button>
+              <Button href="/resume.pdf" download variant="secondary">
                 <Download className="h-4 w-4" /> Resume / CV
-              </a>
-              <button
-                onClick={onOpenTerminal}
-                className="inline-flex items-center gap-2 rounded-md border border-border bg-card/60 px-5 py-3 text-sm font-medium text-foreground backdrop-blur transition-colors hover:border-primary hover:text-primary"
-              >
-                <TerminalIcon className="h-4 w-4" /> _terminal
-                <kbd className="ml-2 rounded border border-border bg-background px-1.5 py-0.5 text-[10px] text-muted-foreground">
-                  Ctrl K
-                </kbd>
-              </button>
-              <a
+              </Button>
+              {engineeringMode && (
+                <Button onClick={onOpenTerminal} variant="outline">
+                  <TerminalIcon className="h-4 w-4" /> _terminal
+                  <kbd className="ml-2 rounded border border-border bg-background px-1.5 py-0.5 text-3xs text-muted-foreground">
+                    Ctrl K
+                  </kbd>
+                </Button>
+              )}
+              <Button
                 href="https://github.com/Kipkirui-John"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-md border border-border bg-card/60 text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+                variant="outline"
+                size="icon"
                 aria-label="GitHub"
               >
                 <Github className="h-4 w-4" />
-              </a>
-              <a
+              </Button>
+              <Button
                 href="https://linkedin.com/in/kipkirui-john"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-md border border-border bg-card/60 text-muted-foreground transition-colors hover:border-primary hover:text-primary"
+                variant="outline"
+                size="icon"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="h-4 w-4" />
-              </a>
+              </Button>
             </div>
 
             {/* Stats grid */}
             <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-px overflow-hidden rounded-lg border border-border bg-border">
               {STATS.map((s) => (
                 <div key={s.k} className="bg-card p-5 flex flex-col gap-1">
-                  <div className="text-[10px] uppercase tracking-widest text-muted-foreground">
-                    {s.k}
-                  </div>
+                  <div className="text-label uppercase text-muted-foreground">{s.k}</div>
                   <div className="mt-1 text-xl font-bold text-foreground font-mono">{s.v}</div>
                 </div>
               ))}
@@ -207,12 +203,9 @@ export function Hero({ onOpenTerminal }: { onOpenTerminal: () => void }) {
                 "Vercel",
                 "Git",
               ].map((tag) => (
-                <span
-                  key={tag}
-                  className="rounded-md border border-border bg-background/60 px-2.5 py-1 text-[11px] font-mono text-muted-foreground hover:border-primary hover:text-primary transition-colors cursor-default"
-                >
+                <Badge key={tag} variant="tag" size="sm">
                   {tag}
-                </span>
+                </Badge>
               ))}
             </div>
           </div>

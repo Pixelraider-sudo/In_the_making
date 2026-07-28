@@ -12,7 +12,7 @@ export function ChallengesSection({ data }: { data: ChallengeEntry[] }) {
             <h3 className="text-base font-semibold text-foreground">{c.title}</h3>
             <p className="mt-2">{c.description}</p>
             <p className="mt-3 border-l-2 border-primary/50 pl-3 text-foreground/90">
-              <span className="font-mono text-[11px] uppercase tracking-widest text-primary/70">
+              <span className="font-mono text-2xs uppercase tracking-widest text-primary/70">
                 Solution:{" "}
               </span>
               {c.solution}

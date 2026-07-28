@@ -78,27 +78,27 @@ export function DevLog() {
               >
                 <div className="flex-1">
                   <div className="flex flex-wrap items-center gap-3 mb-1">
-                    <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-mono">
+                    <span className="text-3xs uppercase tracking-widest text-muted-foreground font-mono">
                       {e.date}
                     </span>
-                    <span className="rounded border border-primary/20 bg-primary/5 px-1.5 py-0.5 text-[9px] font-mono uppercase tracking-widest text-primary/70">
+                    <span className="rounded border border-primary/20 bg-primary/5 px-1.5 py-0.5 text-4xs font-mono uppercase tracking-widest text-primary/70">
                       {e.tag}
                     </span>
                     {e.commit && (
-                      <span className="hidden md:flex items-center gap-1 text-[10px] font-mono text-muted-foreground/50">
+                      <span className="hidden md:flex items-center gap-1 text-3xs font-mono text-muted-foreground/50">
                         <GitCommit className="h-3 w-3" />
                         {e.commit}
                       </span>
                     )}
                   </div>
-                  <div className="font-semibold text-foreground">{e.title}</div>
+                  <div className="text-title-sm text-foreground">{e.title}</div>
                 </div>
                 <ChevronDown
                   className={`h-4 w-4 text-muted-foreground transition-transform shrink-0 mt-1 ${isOpen ? "rotate-180" : ""}`}
                 />
               </button>
               {isOpen && (
-                <div className="px-5 pb-5 text-sm text-muted-foreground leading-relaxed border-t border-border/50 pt-4">
+                <div className="px-5 pb-5 text-body-md text-muted-foreground border-t border-border/50 pt-4">
                   {e.body}
                 </div>
               )}

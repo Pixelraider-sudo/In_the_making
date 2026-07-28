@@ -15,10 +15,10 @@ export function CaseStudySection({ id, index, title, children }: CaseStudySectio
   return (
     <section id={id} className="scroll-mt-24 border-t border-border py-12 first:border-t-0">
       <div className="mb-6 flex items-baseline gap-3">
-        <span className="font-mono text-sm text-primary/60">{index}</span>
-        <h2 className="text-xl font-semibold text-foreground md:text-2xl">{title}</h2>
+        <span className="font-mono text-body-sm text-primary/60">{index}</span>
+        <h2 className="text-title-lg text-foreground">{title}</h2>
       </div>
-      <div className="text-sm leading-relaxed text-muted-foreground md:text-base">{children}</div>
+      <div className="max-w-prose text-body-md text-muted-foreground">{children}</div>
     </section>
   );
 }

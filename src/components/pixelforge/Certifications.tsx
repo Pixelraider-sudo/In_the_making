@@ -124,23 +124,21 @@ export function Certifications() {
                 <Award className="h-5 w-5" />
               </div>
               <div className="flex flex-col items-end gap-1">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground">
+                <span className="text-3xs font-mono uppercase tracking-widest text-muted-foreground">
                   {c.date || "—"}
                 </span>
                 <span
-                  className={`rounded border px-1.5 py-0.5 text-[9px] font-mono uppercase tracking-widest ${CATEGORY_COLOR[c.category]}`}
+                  className={`rounded border px-1.5 py-0.5 text-4xs font-mono uppercase tracking-widest ${CATEGORY_COLOR[c.category]}`}
                 >
                   {c.category}
                 </span>
               </div>
             </div>
 
-            <h3 className="mt-4 text-base font-semibold leading-snug text-foreground">{c.title}</h3>
+            <h3 className="mt-4 text-title-sm text-foreground">{c.title}</h3>
             <div className="mt-1 text-xs font-mono text-primary">{c.issuer}</div>
 
-            {c.note && (
-              <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{c.note}</p>
-            )}
+            {c.note && <p className="mt-3 text-body-sm text-muted-foreground">{c.note}</p>}
 
             {c.url ? (
               <a
@@ -152,7 +150,7 @@ export function Certifications() {
                 verify <ExternalLink className="h-3 w-3" />
               </a>
             ) : (
-              <div className="mt-4 inline-flex items-center gap-1.5 text-[10px] font-mono text-muted-foreground/40">
+              <div className="mt-4 inline-flex items-center gap-1.5 text-3xs font-mono text-muted-foreground/40">
                 <Lock className="h-3 w-3" /> no url on file
               </div>
             )}
@@ -171,7 +169,7 @@ export function Certifications() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-4 flex items-center justify-between">
-              <h3 className="font-semibold">Draft new certificate</h3>
+              <h3 className="text-title-sm">Draft new certificate</h3>
               <button
                 onClick={() => setOpen(false)}
                 className="text-muted-foreground hover:text-foreground"
@@ -182,7 +180,7 @@ export function Certifications() {
             <div className="space-y-3 font-mono text-sm">
               {(["title", "issuer", "date", "url", "note"] as const).map((k) => (
                 <label key={k} className="block">
-                  <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                  <span className="text-3xs uppercase tracking-widest text-muted-foreground">
                     {k}
                   </span>
                   <input
@@ -194,7 +192,7 @@ export function Certifications() {
                 </label>
               ))}
               <label className="block">
-                <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
+                <span className="text-3xs uppercase tracking-widest text-muted-foreground">
                   category
                 </span>
                 <select
@@ -217,7 +215,7 @@ export function Certifications() {
             >
               Add to vault
             </button>
-            <p className="mt-3 text-[10px] text-muted-foreground">
+            <p className="mt-3 text-3xs text-muted-foreground">
               In-session only. To persist, add to the <code className="text-primary">seed</code>{" "}
               array in <code>Certifications.tsx</code>.
             </p>

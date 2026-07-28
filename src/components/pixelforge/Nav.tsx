@@ -2,6 +2,9 @@ import { LiveClock } from "./LiveClock";
 import { ThemeSwitcher } from "./ThemeSwitcher";
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
+import { Button } from "./ui/Button";
+import { Switch } from "./ui/Switch";
+import { useEngineeringMode } from "@/lib/engineering-mode";
 
 const NAV_ITEMS = [
   { l: "environment", h: "#environment" },
@@ -42,6 +45,7 @@ function useActiveSection() {
 export function Nav({ onOpenTerminal }: { onOpenTerminal: () => void }) {
   const active = useActiveSection();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { enabled: engineeringMode, toggle: toggleEngineeringMode } = useEngineeringMode();
 
   // Lock body scroll when mobile nav is open
   useEffect(() => {
@@ -75,7 +79,7 @@ export function Nav({ onOpenTerminal }: { onOpenTerminal: () => void }) {
                 <a
                   key={item.l}
                   href={item.h}
-                  className={`relative rounded px-3 py-1.5 text-xs font-mono transition-colors ${
+                  className={`relative rounded px-3 py-1.5 text-xs font-mono transition-standard ${
                     isActive
                       ? "text-primary bg-primary/10"
                       : "text-muted-foreground hover:bg-card hover:text-primary"
@@ -91,20 +95,28 @@ export function Nav({ onOpenTerminal }: { onOpenTerminal: () => void }) {
           </div>
 
           {/* Right controls */}
-          <div className="flex items-center gap-2">
-            <LiveClock />
+          <div className="flex items-center gap-3">
+            <div className="hidden md:block">
+              <Switch checked={engineeringMode} onChange={toggleEngineeringMode} label="eng mode" />
+            </div>
+            {engineeringMode && <LiveClock />}
             <ThemeSwitcher />
-            <button
-              onClick={onOpenTerminal}
-              className="hidden sm:flex rounded-md border border-border bg-card px-3 py-1.5 text-xs font-mono text-muted-foreground hover:border-primary hover:text-primary transition-colors"
-            >
-              _terminal
-            </button>
+            {engineeringMode && (
+              <Button
+                onClick={onOpenTerminal}
+                variant="outline"
+                size="sm"
+                className="hidden sm:flex font-mono"
+              >
+                _terminal
+              </Button>
+            )}
             {/* Mobile menu toggle */}
             <button
               onClick={() => setMobileOpen((o) => !o)}
-              className="lg:hidden grid h-8 w-8 place-items-center rounded-md border border-border bg-card text-muted-foreground hover:border-primary hover:text-primary transition-colors"
-              aria-label="Toggle menu"
+              className="lg:hidden grid h-8 w-8 place-items-center rounded-md border border-border bg-card text-muted-foreground transition-standard hover:border-primary hover:text-primary"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
             >
               {mobileOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
             </button>
@@ -125,7 +137,7 @@ export function Nav({ onOpenTerminal }: { onOpenTerminal: () => void }) {
             <div className="flex-1 overflow-y-auto py-4">
               {/* Nav links */}
               <div className="px-4 mb-4">
-                <div className="text-[10px] font-mono uppercase tracking-widest text-muted-foreground mb-3">
+                <div className="text-3xs font-mono uppercase tracking-widest text-muted-foreground mb-3">
                   navigate
                 </div>
                 <ul className="space-y-1">
@@ -136,13 +148,13 @@ export function Nav({ onOpenTerminal }: { onOpenTerminal: () => void }) {
                         <a
                           href={item.h}
                           onClick={() => setMobileOpen(false)}
-                          className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-mono transition-colors ${
+                          className={`flex items-center gap-3 rounded-md px-3 py-2 text-sm font-mono transition-standard ${
                             isActive
                               ? "bg-primary/10 text-primary"
                               : "text-muted-foreground hover:bg-card hover:text-primary"
                           }`}
                         >
-                          <span className="text-primary/50 text-[10px]">~/</span>
+                          <span className="text-primary/50 text-3xs">~/</span>
                           {item.l}
                           {isActive && (
                             <span className="ml-auto h-1.5 w-1.5 rounded-full bg-primary" />
@@ -154,26 +166,37 @@ export function Nav({ onOpenTerminal }: { onOpenTerminal: () => void }) {
                 </ul>
               </div>
 
-              {/* Terminal button in mobile */}
-              <div className="px-4 border-t border-border pt-4">
-                <button
-                  onClick={() => {
-                    setMobileOpen(false);
-                    onOpenTerminal();
-                  }}
-                  className="w-full rounded-md border border-border bg-card px-3 py-2 text-xs font-mono text-muted-foreground hover:border-primary hover:text-primary transition-colors text-left"
-                >
-                  $ _terminal{" "}
-                  <kbd className="float-right rounded border border-border bg-background px-1.5 py-0.5 text-[10px]">
-                    Ctrl K
-                  </kbd>
-                </button>
+              {/* Engineering mode toggle (mobile) */}
+              <div className="px-4 border-t border-border pt-4 pb-4">
+                <Switch
+                  checked={engineeringMode}
+                  onChange={toggleEngineeringMode}
+                  label="engineering mode"
+                />
               </div>
+
+              {/* Terminal button in mobile */}
+              {engineeringMode && (
+                <div className="px-4 border-t border-border pt-4">
+                  <button
+                    onClick={() => {
+                      setMobileOpen(false);
+                      onOpenTerminal();
+                    }}
+                    className="w-full rounded-md border border-border bg-card px-3 py-2 text-xs font-mono text-muted-foreground hover:border-primary hover:text-primary transition-standard text-left"
+                  >
+                    $ _terminal{" "}
+                    <kbd className="float-right rounded border border-border bg-background px-1.5 py-0.5 text-3xs">
+                      Ctrl K
+                    </kbd>
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Mobile drawer footer */}
             <div className="border-t border-border px-4 py-3">
-              <div className="text-[10px] font-mono text-muted-foreground/50">
+              <div className="text-3xs font-mono text-muted-foreground/50">
                 PIXELFORGE v2.0.0 · Build Beyond Limits
               </div>
             </div>

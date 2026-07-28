@@ -42,14 +42,12 @@ export function Section({
   return (
     <section id={id} ref={ref} className="section-animate border-b border-border">
       <div className="mx-auto max-w-6xl px-6 py-20 md:py-28">
-        <div className="flex items-center gap-3 text-xs uppercase tracking-[0.3em] text-primary mb-4">
+        <div className="flex items-center gap-3 text-overline uppercase text-primary mb-4">
           <span className="h-px w-8 bg-primary" />
           {tag}
         </div>
-        <h2 className="font-[Space_Grotesk] text-3xl md:text-5xl font-bold tracking-tight max-w-3xl">
-          {title}
-        </h2>
-        {intro && <p className="mt-4 max-w-2xl text-muted-foreground leading-relaxed">{intro}</p>}
+        <h2 className="font-[Space_Grotesk] text-heading-lg tracking-tight max-w-3xl">{title}</h2>
+        {intro && <p className="mt-4 max-w-prose text-body-lg text-muted-foreground">{intro}</p>}
         <div className="mt-12">{children}</div>
       </div>
     </section>

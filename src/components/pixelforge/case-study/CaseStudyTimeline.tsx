@@ -13,7 +13,7 @@ export function CaseStudyTimeline({ data }: { data: TimelinePhase[] }) {
             <div className="flex flex-wrap items-baseline gap-2">
               <h3 className="text-sm font-semibold text-foreground">{phase.phase}</h3>
               {phase.date && (
-                <span className="font-mono text-[11px] text-muted-foreground">{phase.date}</span>
+                <span className="font-mono text-2xs text-muted-foreground">{phase.date}</span>
               )}
             </div>
             <p className="mt-1">{phase.description}</p>

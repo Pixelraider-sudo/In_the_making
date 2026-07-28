@@ -67,12 +67,12 @@ export function Achievements() {
             >
               {/* Earned indicator */}
               {b.earned && !b.pending && (
-                <span className="absolute top-4 right-4 text-[10px] font-mono text-primary/60 uppercase tracking-widest">
+                <span className="absolute top-4 right-4 text-3xs font-mono text-primary/60 uppercase tracking-widest">
                   ✓ earned
                 </span>
               )}
               {b.pending && (
-                <span className="absolute top-4 right-4 text-[10px] font-mono text-muted-foreground/50 uppercase tracking-widest">
+                <span className="absolute top-4 right-4 text-3xs font-mono text-muted-foreground/50 uppercase tracking-widest">
                   ○ pending
                 </span>
               )}
@@ -87,8 +87,8 @@ export function Achievements() {
                 <Icon className="h-5 w-5" />
               </div>
 
-              <h3 className="mt-4 font-semibold text-foreground">{b.title}</h3>
-              <p className="mt-2 text-xs text-muted-foreground leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity">
+              <h3 className="mt-4 text-title-md text-foreground">{b.title}</h3>
+              <p className="mt-2 text-body-sm text-muted-foreground opacity-80 transition-standard group-hover:opacity-100">
                 {b.lore}
               </p>
             </div>

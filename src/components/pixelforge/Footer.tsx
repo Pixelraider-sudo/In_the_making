@@ -53,7 +53,7 @@ export function Footer() {
             <div className="text-xs font-mono text-muted-foreground">
               © {new Date().getFullYear()} Kipkirui John · Nairobi, Kenya
             </div>
-            <div className="text-[10px] font-mono text-muted-foreground/50">
+            <div className="text-3xs font-mono text-muted-foreground/50">
               forged with React 18 · TypeScript · Vite · Tailwind CSS · deployed on Vercel
             </div>
           </div>

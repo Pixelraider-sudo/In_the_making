@@ -25,7 +25,7 @@ export function CaseStudyToc({ availableIds }: { availableIds: Set<string> }) {
 
   return (
     <nav className="sticky top-6 hidden lg:block">
-      <p className="mb-3 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+      <p className="mb-3 font-mono text-2xs uppercase tracking-widest text-muted-foreground">
         On this page
       </p>
       <ul className="space-y-2 border-l border-border pl-4">

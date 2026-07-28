@@ -16,7 +16,7 @@ export function LiveClock() {
     return () => clearInterval(id);
   }, []);
   return (
-    <span className="hidden md:inline-flex items-center gap-2 rounded border border-border bg-card px-2.5 py-1 font-mono text-[10px] text-muted-foreground">
+    <span className="hidden md:inline-flex items-center gap-2 rounded border border-border bg-card px-2.5 py-1 font-mono text-3xs text-muted-foreground">
       <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
       {t} <span className="text-primary/70">EAT</span>
     </span>

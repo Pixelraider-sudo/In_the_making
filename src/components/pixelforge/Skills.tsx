@@ -150,7 +150,7 @@ export function Skills() {
 
       {/* Currently exploring */}
       <div className="mt-6 rounded-lg border border-border border-dashed bg-card/40 px-5 py-4 font-mono text-sm">
-        <div className="text-[10px] uppercase tracking-widest text-muted-foreground mb-3">
+        <div className="text-3xs uppercase tracking-widest text-muted-foreground mb-3">
           currently indexing →
         </div>
         <div className="flex flex-wrap gap-2">
@@ -164,7 +164,7 @@ export function Skills() {
           ].map((item) => (
             <span
               key={item}
-              className="rounded border border-dashed border-border px-2.5 py-1 text-[11px] text-muted-foreground/70"
+              className="rounded border border-dashed border-border px-2.5 py-1 text-2xs text-muted-foreground/70"
             >
               {item}
             </span>

@@ -59,7 +59,7 @@ export function Identity() {
               }`}
             >
               {/* Tag */}
-              <span className="inline-block mb-4 rounded border border-primary/30 bg-primary/5 px-2 py-0.5 text-[10px] font-mono uppercase tracking-widest text-primary">
+              <span className="inline-block mb-4 rounded border border-primary/30 bg-primary/5 px-2 py-0.5 text-3xs font-mono uppercase tracking-widest text-primary">
                 {p.tag}
               </span>
               <div className="flex items-center gap-3">

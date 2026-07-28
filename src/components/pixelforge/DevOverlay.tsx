@@ -22,7 +22,7 @@ export function DevOverlay() {
         <div>FPS: 60 (simulated)</div>
       </div>
 
-      <div className="mt-3 text-[10px] text-green-500">Press [D] to toggle</div>
+      <div className="mt-3 text-3xs text-green-500">Press [D] to toggle</div>
     </div>
   );
 }

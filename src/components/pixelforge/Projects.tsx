@@ -2,6 +2,9 @@ import { Section } from "./Section";
 import { Github, ExternalLink, Star, BookOpen } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { Button } from "./ui/Button";
+import { Badge } from "./ui/Badge";
+import { StatusDot, type StatusTone } from "./ui/StatusDot";
 
 type Tag = "all" | "ai" | "full-stack" | "client" | "frontend" | "open-source";
 
@@ -98,10 +101,10 @@ const FILTER_LABELS: { key: Tag; label: string }[] = [
   { key: "open-source", label: "open-source" },
 ];
 
-const STATUS_STYLE: Record<Project["status"], string> = {
-  live: "text-green-400 before:bg-green-400",
-  wip: "text-yellow-400 before:bg-yellow-400",
-  shipped: "text-primary before:bg-primary",
+const STATUS_TONE: Record<Project["status"], StatusTone> = {
+  live: "success",
+  wip: "warning",
+  shipped: "info",
 };
 
 export function Projects() {
@@ -127,7 +130,8 @@ export function Projects() {
           <button
             key={f.key}
             onClick={() => setActive(f.key)}
-            className={`rounded-md border px-3 py-1.5 text-xs font-mono transition-all ${
+            aria-pressed={active === f.key}
+            className={`rounded-md border px-3 py-1.5 text-xs font-mono transition-standard ${
               active === f.key
                 ? "border-primary bg-primary/10 text-primary"
                 : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground"
@@ -147,7 +151,7 @@ export function Projects() {
           return (
             <article
               key={p.title}
-              className={`group flex flex-col overflow-hidden rounded-xl border bg-card transition-all hover:-translate-y-1 ${
+              className={`group flex flex-col overflow-hidden rounded-xl border bg-card transition-standard hover:-translate-y-1 hover:elevation-2 ${
                 p.featured
                   ? "border-primary/40 hover:border-primary"
                   : "border-border hover:border-primary/60"
@@ -162,20 +166,16 @@ export function Projects() {
                 </div>
                 <div className="flex items-center gap-3">
                   {p.featured && (
-                    <span className="flex items-center gap-1 text-[10px] font-mono text-yellow-400">
+                    <span className="flex items-center gap-1 text-3xs font-mono text-yellow-400">
                       <Star className="h-3 w-3 fill-yellow-400" /> featured
                     </span>
                   )}
-                  <span
-                    className={`text-[10px] font-mono uppercase tracking-widest before:mr-1.5 before:inline-block before:h-1.5 before:w-1.5 before:rounded-full before:content-[''] ${STATUS_STYLE[p.status]}`}
-                  >
-                    {p.status}
-                  </span>
+                  <StatusDot label={p.status} tone={STATUS_TONE[p.status]} size="sm" />
                 </div>
               </header>
 
               <div className="flex flex-1 flex-col p-5">
-                <h3 className="text-lg font-semibold text-foreground leading-snug">{p.title}</h3>
+                <h3 className="text-title-md text-foreground">{p.title}</h3>
                 <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
 
                 {/* Expandable detail */}
@@ -187,7 +187,8 @@ export function Projects() {
 
                 <button
                   onClick={() => setExpanded(isExpanded ? null : p.title)}
-                  className="mt-3 text-[11px] font-mono text-muted-foreground hover:text-primary transition-colors text-left"
+                  aria-expanded={isExpanded}
+                  className="mt-3 text-2xs font-mono text-muted-foreground transition-standard hover:text-primary text-left"
                 >
                   {isExpanded ? "▲ collapse" : "▼ expand details"}
                 </button>
@@ -195,11 +196,10 @@ export function Projects() {
                 {/* Stack tags */}
                 <ul className="mt-4 flex flex-wrap gap-1.5">
                   {p.stack.map((t) => (
-                    <li
-                      key={t}
-                      className="rounded border border-border bg-background/60 px-2 py-0.5 font-mono text-[10px] text-muted-foreground"
-                    >
-                      {t}
+                    <li key={t}>
+                      <Badge variant="tag" size="sm">
+                        {t}
+                      </Badge>
                     </li>
                   ))}
                 </ul>
@@ -209,12 +209,9 @@ export function Projects() {
                   {p.tags
                     .filter((t) => t !== "all")
                     .map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[10px] font-mono text-primary/70"
-                      >
+                      <Badge key={t} variant="category" size="sm">
                         #{t}
-                      </span>
+                      </Badge>
                     ))}
                 </div>
 
@@ -224,33 +221,35 @@ export function Projects() {
                     <Link
                       to="/projects/$slug"
                       params={{ slug: p.caseStudySlug }}
-                      className="inline-flex items-center gap-1.5 rounded-md border border-primary/50 bg-primary/5 px-3 py-1.5 text-xs font-semibold text-primary transition-colors hover:bg-primary/10"
+                      className="inline-flex items-center gap-1.5 rounded-md border border-primary/50 bg-primary/5 px-3 py-1.5 text-xs font-semibold text-primary transition-standard hover:bg-primary/10"
                     >
                       Case study <BookOpen className="h-3 w-3" />
                     </Link>
                   )}
                   {p.live && (
-                    <a
+                    <Button
                       href={p.live}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground hover:shadow-[var(--shadow-glow)] transition-shadow"
+                      variant="primary"
+                      size="sm"
                     >
                       Live <ExternalLink className="h-3 w-3" />
-                    </a>
+                    </Button>
                   )}
                   {p.repo && (
-                    <a
+                    <Button
                       href={p.repo}
                       target="_blank"
                       rel="noreferrer"
-                      className="inline-flex items-center gap-1.5 rounded-md border border-border bg-background/60 px-3 py-1.5 text-xs font-mono text-muted-foreground hover:border-primary hover:text-primary transition-colors"
+                      variant="outline"
+                      size="sm"
                     >
                       <Github className="h-3 w-3" /> Code
-                    </a>
+                    </Button>
                   )}
                   {!p.live && !p.repo && (
-                    <span className="text-[10px] font-mono text-muted-foreground/50 italic">
+                    <span className="text-3xs font-mono text-muted-foreground/50 italic">
                       client project · NDA
                     </span>
                   )}

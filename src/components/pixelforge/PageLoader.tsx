@@ -171,7 +171,7 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
             <span className="h-2.5 w-2.5 rounded-full bg-red-500/70" />
             <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/70" />
             <span className="h-2.5 w-2.5 rounded-full bg-green-500/70" />
-            <span className="ml-3 text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
+            <span className="ml-3 text-3xs font-mono text-muted-foreground uppercase tracking-widest">
               pixelforge — boot sequence
             </span>
           </div>
@@ -192,10 +192,10 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
           {/* Progress bar */}
           <div className="border-t border-border px-4 py-3">
             <div className="flex items-center justify-between mb-1.5">
-              <span className="text-[10px] font-mono text-muted-foreground uppercase tracking-widest">
+              <span className="text-3xs font-mono text-muted-foreground uppercase tracking-widest">
                 boot
               </span>
-              <span className="text-[10px] font-mono text-primary">{progress}%</span>
+              <span className="text-3xs font-mono text-primary">{progress}%</span>
             </div>
             <div className="h-[3px] w-full rounded-full bg-border overflow-hidden">
               <div
@@ -210,7 +210,7 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
         </div>
 
         {/* Footer */}
-        <p className="mt-5 text-center text-[10px] font-mono text-muted-foreground/35 select-none tracking-[0.5em] uppercase">
+        <p className="mt-5 text-center text-3xs font-mono text-muted-foreground/35 select-none tracking-[0.5em] uppercase">
           build beyond limits
         </p>
       </div>

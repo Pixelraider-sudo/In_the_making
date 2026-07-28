@@ -60,7 +60,7 @@ export function SystemHUD() {
           <span className="text-gray-400">Logs:</span>
           <div className="mt-1 space-y-1 max-h-32 overflow-hidden">
             {logs.map((log, i) => (
-              <div key={i} className="text-[10px] opacity-80">
+              <div key={i} className="text-3xs opacity-80">
                 [{log.level.toUpperCase()}] {log.message}
               </div>
             ))}

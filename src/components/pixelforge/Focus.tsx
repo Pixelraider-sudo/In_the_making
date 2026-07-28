@@ -1,4 +1,5 @@
 import { Section } from "./Section";
+import { StatusDot, type StatusTone } from "./ui/StatusDot";
 
 const items = [
   {
@@ -33,11 +34,11 @@ const items = [
   },
 ];
 
-const STATUS_STYLE: Record<string, string> = {
-  active: "text-green-400",
-  queued: "text-yellow-400",
-  open: "text-primary",
-  ongoing: "text-muted-foreground",
+const STATUS_TONE: Record<string, StatusTone> = {
+  active: "success",
+  queued: "warning",
+  open: "info",
+  ongoing: "neutral",
 };
 
 const STATUS_LABEL: Record<string, string> = {
@@ -61,13 +62,9 @@ export function Focus() {
       <div className="rounded-lg border border-border bg-card p-6 font-mono text-sm">
         {/* Process header */}
         <div className="mb-4 flex items-center justify-between border-b border-border pb-3">
-          <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
-            process
-          </span>
-          <span className="text-[10px] uppercase tracking-widest text-muted-foreground">task</span>
-          <span className="text-[10px] uppercase tracking-widest text-muted-foreground">
-            status
-          </span>
+          <span className="text-3xs uppercase tracking-widest text-muted-foreground">process</span>
+          <span className="text-3xs uppercase tracking-widest text-muted-foreground">task</span>
+          <span className="text-3xs uppercase tracking-widest text-muted-foreground">status</span>
         </div>
 
         {items.map((i) => (
@@ -77,11 +74,12 @@ export function Focus() {
           >
             <span className="text-primary shrink-0 w-10">{i.p}</span>
             <span className="text-foreground/90 flex-1 leading-relaxed">{i.t}</span>
-            <span
-              className={`shrink-0 text-[10px] uppercase tracking-widest ${STATUS_STYLE[i.status]}`}
-            >
-              {STATUS_LABEL[i.status]}
-            </span>
+            <StatusDot
+              label={STATUS_LABEL[i.status]}
+              tone={STATUS_TONE[i.status]}
+              size="sm"
+              className="shrink-0"
+            />
           </div>
         ))}
 
