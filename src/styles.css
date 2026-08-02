@@ -1,0 +1,580 @@
+/* MUST be first */
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* sources */
+@source "../src";
+
+/* --------------------------------
+   THEME MAPPING
+-------------------------------- */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Micro-typography scale.
+     Replaces the ~55 one-off `text-[9px]` / `text-[10px]` / `text-[11px]`
+     arbitrary values scattered across metadata, badges, and kbd hints.
+     Use these instead of bracket values anywhere in the app. */
+  --text-4xs: 0.5625rem; /* 9px  — kbd hints, dense metadata */
+  --text-4xs--line-height: 0.875rem;
+  --text-3xs: 0.625rem; /* 10px — labels, eyebrow text */
+  --text-3xs--line-height: 0.875rem;
+  --text-2xs: 0.6875rem; /* 11px — chips, tags, badges */
+  --text-2xs--line-height: 1rem;
+
+  /* Motion scale. One set of durations/easings for every hover,
+     reveal, and transition in the app — see MOTION SYSTEM in styles.css. */
+  --duration-fast: 150ms;
+  --duration-base: 220ms;
+  --duration-slow: 400ms;
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Elevation scale. Consistent soft shadows for cards/popovers,
+     independent of the brand `--shadow-glow` accent shadow. */
+  --shadow-elevation-1: 0 1px 2px oklch(0 0 0 / 0.16);
+  --shadow-elevation-2: 0 4px 16px -4px oklch(0 0 0 / 0.28);
+  --shadow-elevation-3: 0 16px 40px -8px oklch(0 0 0 / 0.4);
+
+  /* --------------------------------------------------------------
+     TYPE SCALE (Phase Ω)
+     Every text element in the app should use one of these, not an
+     arbitrary text-size / font-weight combination. Sizes are set to match
+     what was already in use (this is a refinement, not a redesign) —
+     they're now just named, fluid (clamp-based where they span a
+     wide range), and carry consistent line-height/letter-spacing/
+     weight instead of being re-specified ad hoc at each call site.
+
+     Usage: className="text-heading-lg" is enough — weight, leading,
+     and tracking come bundled with the utility.
+     -------------------------------------------------------------- */
+
+  /* Display — hero headline only. One per page, at most. */
+  --text-display-xl: clamp(3rem, 2.15rem + 3.6vw, 4.5rem); /* 48px → 72px */
+  --text-display-xl--line-height: 1.05;
+  --text-display-xl--letter-spacing: -0.02em;
+  --text-display-xl--font-weight: 700;
+
+  --text-display-lg: clamp(2.25rem, 1.85rem + 1.7vw, 3rem); /* 36px → 48px */
+  --text-display-lg--line-height: 1.1;
+  --text-display-lg--letter-spacing: -0.01em;
+  --text-display-lg--font-weight: 600;
+
+  /* Heading — section titles (via <Section>, page H1 on sub-pages). */
+  --text-heading-lg: clamp(1.875rem, 1.3rem + 2.4vw, 3rem); /* 30px → 48px */
+  --text-heading-lg--line-height: 1.1;
+  --text-heading-lg--letter-spacing: -0.015em;
+  --text-heading-lg--font-weight: 700;
+
+  --text-heading-md: clamp(1.5rem, 1.3rem + 0.9vw, 1.875rem); /* 24px → 30px */
+  --text-heading-md--line-height: 1.15;
+  --text-heading-md--letter-spacing: -0.01em;
+  --text-heading-md--font-weight: 700;
+
+  /* Title — in-page sub-headings, case-study section titles, card titles. */
+  --text-title-lg: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem); /* 20px → 24px */
+  --text-title-lg--line-height: 1.3;
+  --text-title-lg--font-weight: 600;
+
+  --text-title-md: 1.125rem; /* 18px — project/timeline/environment card titles */
+  --text-title-md--line-height: 1.4;
+  --text-title-md--font-weight: 600;
+
+  --text-title-sm: 1rem; /* 16px */
+  --text-title-sm--line-height: 1.4;
+  --text-title-sm--font-weight: 600;
+
+  /* Body — paragraph copy. */
+  --text-body-lg: clamp(1rem, 0.94rem + 0.3vw, 1.125rem); /* 16px → 18px */
+  --text-body-lg--line-height: 1.65;
+
+  --text-body-md: 0.875rem; /* 14px — default paragraph size in this app */
+  --text-body-md--line-height: 1.6;
+
+  --text-body-sm: 0.75rem; /* 12px */
+  --text-body-sm--line-height: 1.5;
+
+  /* Caption / Label / Overline — metadata, not prose. */
+  --text-caption: 0.6875rem; /* 11px */
+  --text-caption--line-height: 1.4;
+
+  --text-label: 0.625rem; /* 10px */
+  --text-label--line-height: 1.3;
+  --text-label--letter-spacing: 0.05em;
+  --text-label--font-weight: 500;
+
+  --text-overline: 0.75rem; /* 12px */
+  --text-overline--line-height: 1.4;
+  --text-overline--letter-spacing: 0.3em;
+  --text-overline--font-weight: 500;
+
+  /* Code / Quote — inline and block content inside long-form case studies. */
+  --text-code: 0.875rem; /* 14px, paired with font-mono */
+  --text-code--line-height: 1.6;
+
+  --text-quote: 1.125rem; /* 18px */
+  --text-quote--line-height: 1.6;
+}
+
+/* --------------------------------
+   ROOT THEME
+-------------------------------- */
+
+:root {
+  --radius: 0.5rem;
+
+  --background: oklch(0.16 0.03 270);
+  --foreground: oklch(0.96 0.01 240);
+
+  --card: oklch(0.2 0.035 270);
+  --card-foreground: oklch(0.96 0.01 240);
+
+  --popover: oklch(0.18 0.03 270);
+  --popover-foreground: oklch(0.96 0.01 240);
+
+  /* AMBER / ORANGE CORE THEME */
+  --primary: oklch(0.78 0.17 60);
+  --secondary: oklch(0.7 0.2 35);
+  --accent: oklch(0.85 0.16 85);
+
+  --muted: oklch(0.24 0.03 270);
+
+  --border: oklch(0.3 0.04 270);
+  --input: oklch(0.26 0.035 270);
+  --ring: oklch(0.78 0.17 60);
+
+  --grid-color: oklch(0.78 0.17 60 / 0.07);
+
+  /* FX SYSTEM */
+  --shadow-glow: 0 0 40px oklch(0.78 0.17 60 / 0.25);
+
+  --gradient-forge: linear-gradient(
+    135deg,
+    oklch(0.78 0.17 60),
+    oklch(0.7 0.2 35),
+    oklch(0.85 0.16 85)
+  );
+}
+
+/* --------------------------------
+   DARK MODE
+-------------------------------- */
+
+.dark {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+
+  --card: oklch(0.208 0.042 265.755);
+  --popover: oklch(0.208 0.042 265.755);
+
+  --primary: oklch(0.78 0.17 60);
+  --secondary: oklch(0.7 0.2 35);
+  --accent: oklch(0.85 0.16 85);
+
+  --muted: oklch(0.279 0.041 260.031);
+
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.78 0.17 60);
+}
+
+/* --------------------------------
+   BASE
+-------------------------------- */
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+
+    background-image:
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+
+    background-size: 48px 48px;
+    background-attachment: fixed;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  /* Accessible focus rings. Applies to every interactive element by
+     default — buttons/links/inputs no longer need to hand-roll focus
+     styling, and keyboard users always get a visible indicator. */
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  /* Respect the OS-level reduced-motion preference. Anything animated
+     (typewriter caret, glow pulse, scroll reveals, hover transforms)
+     collapses to an instant, static state instead of forcing motion
+     on users who've asked for less of it. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* --------------------------------
+   UTILITIES
+-------------------------------- */
+
+/* Elevation scale — use instead of ad-hoc box-shadow values.
+   Declared with @utility (not @layer utilities) so variants like
+   hover:elevation-2 work correctly under Tailwind v4. */
+@utility elevation-1 {
+  box-shadow: var(--shadow-elevation-1);
+}
+@utility elevation-2 {
+  box-shadow: var(--shadow-elevation-2);
+}
+@utility elevation-3 {
+  box-shadow: var(--shadow-elevation-3);
+}
+
+@layer utilities {
+  .text-gradient-forge {
+    background: var(--gradient-forge);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .border-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Standard interactive transition — one timing curve for every
+     hover/press state in the app instead of mixed duration-200/300/500. */
+  .transition-standard {
+    transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+    transition-duration: var(--duration-base);
+    transition-timing-function: var(--ease-standard);
+  }
+
+  /* ✨ NEW: Glass Card System */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    transition:
+      transform var(--duration-base) var(--ease-standard),
+      box-shadow var(--duration-base) var(--ease-standard),
+      border-color var(--duration-base) var(--ease-standard);
+  }
+
+  .glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-glow);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* --------------------------------
+   ANIMATIONS
+-------------------------------- */
+
+/* caret blink */
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.caret {
+  animation: blink 1s steps(1) infinite;
+}
+
+/* glow pulse */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px oklch(0.78 0.17 60 / 0.25);
+  }
+
+  50% {
+    box-shadow: 0 0 45px oklch(0.7 0.2 35 / 0.55);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* ✨ NEW: Smooth reveal animation */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: fadeUp 0.8s ease-out both;
+}
+html,
+body,
+#root {
+  height: auto;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* ── Text selection ──────────────────────────────────────────────────────── */
+::selection {
+  background: oklch(0.82 0.16 200 / 0.25);
+  color: oklch(0.96 0.01 240);
+}
+::-moz-selection {
+  background: oklch(0.82 0.16 200 / 0.25);
+  color: oklch(0.96 0.01 240);
+}
+
+/* ── Scrollbar styling ───────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: oklch(0.16 0.03 270);
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(0.82 0.16 200 / 0.4);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.82 0.16 200 / 0.7);
+}
+
+/* ── Smooth scroll ───────────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Section fade-in on scroll ───────────────────────────────────────────── */
+@keyframes section-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-animate {
+  opacity: 0;
+}
+.section-animate.in-view {
+  animation: section-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* ── Horizontal marquee (infinite right → left) ─────────────────────────── */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 1.25rem;
+  align-items: stretch;
+  will-change: transform;
+  animation: marquee 24s linear infinite;
+}
+
+.marquee-item {
+  flex: 0 0 auto;
+}
+
+/* Pause marquee on hover for accessibility */
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+/* ── Glitch flicker (use on ASCII / logo elements) ───────────────────────── */
+@keyframes glitch {
+  0%,
+  100% {
+    clip-path: none;
+    transform: none;
+  }
+  20% {
+    clip-path: inset(20% 0 60% 0);
+    transform: translateX(-3px);
+  }
+  40% {
+    clip-path: inset(60% 0 20% 0);
+    transform: translateX(3px);
+  }
+  60% {
+    clip-path: none;
+    transform: none;
+  }
+}
+.animate-glitch:hover {
+  animation: glitch 0.4s steps(1) 1;
+}
+
+/* ── Focus ring override ─────────────────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid oklch(0.82 0.16 200 / 0.7);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------------
+   BOOT SEQUENCE — premium loader
+   Real, tasteful motion tied to the site's actual brand tokens
+   (--primary / --gradient-forge / --shadow-glow), not an unrelated
+   color palette. Kept lightweight: a couple of CSS-only ambient
+   glow orbs (no DOM-heavy particle system) and one confident logo
+   draw-in. Everything here is opt-out under prefers-reduced-motion.
+   -------------------------------------------------------------- */
+@keyframes pf-draw-outline {
+  from {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes pf-mark-fill {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pf-glow-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 10px oklch(0.78 0.17 60 / 0.35));
+  }
+  50% {
+    filter: drop-shadow(0 0 26px oklch(0.78 0.17 60 / 0.6));
+  }
+}
+
+@keyframes pf-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes pf-orb-drift-a {
+  0%,
+  100% {
+    transform: translate(-6%, -4%) scale(1);
+  }
+  50% {
+    transform: translate(4%, 6%) scale(1.12);
+  }
+}
+
+@keyframes pf-orb-drift-b {
+  0%,
+  100% {
+    transform: translate(5%, 3%) scale(1);
+  }
+  50% {
+    transform: translate(-4%, -5%) scale(1.08);
+  }
+}
+
+@layer utilities {
+  .animate-pf-draw-outline {
+    animation: pf-draw-outline 700ms var(--ease-out-soft) forwards;
+  }
+  .animate-pf-mark-fill {
+    animation: pf-mark-fill var(--duration-slow) var(--ease-standard) forwards;
+  }
+  .animate-pf-glow-pulse {
+    animation: pf-glow-pulse 2.6s var(--ease-standard) infinite;
+  }
+  .animate-pf-rise-in {
+    animation: pf-rise-in var(--duration-slow) var(--ease-out-soft) forwards;
+  }
+  .animate-pf-orb-a {
+    animation: pf-orb-drift-a 9s var(--ease-standard) infinite;
+  }
+  .animate-pf-orb-b {
+    animation: pf-orb-drift-b 11s var(--ease-standard) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-pf-draw-outline,
+    .animate-pf-mark-fill,
+    .animate-pf-glow-pulse,
+    .animate-pf-rise-in,
+    .animate-pf-orb-a,
+    .animate-pf-orb-b {
+      animation: none;
+    }
+  }
+}
