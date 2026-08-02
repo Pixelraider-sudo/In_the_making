@@ -92,11 +92,7 @@ function IndexContent() {
       <PageLoader onDone={() => setBooted(true)} />
 
       <div
-<<<<<<< HEAD
-        className={`min-h-screen transition-opacity duration-500 ${
-=======
         className={`min-h-screen transition-opacity duration-700 ${
->>>>>>> def13e7176bd68c3746aaa908cd5ce3b9ca2dded
           booted ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
@@ -111,15 +107,7 @@ function IndexContent() {
           <Identity />
           <Projects />
           <Skills />
-<<<<<<< HEAD
-
           <Certifications />
-
-=======
-          
-          <Certifications />
-          
->>>>>>> def13e7176bd68c3746aaa908cd5ce3b9ca2dded
           <DevLog />
           <Contact />
         </main>

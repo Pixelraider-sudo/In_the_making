@@ -38,7 +38,6 @@ export function Experience() {
       <div className="grid gap-8 xl:grid-cols-[1.1fr_0.9fr]">
         <div className="space-y-6">
           {EDUCATION.map((item) => (
-<<<<<<< HEAD
             <article
               key={item.title}
               className="rounded-[2rem] border border-border bg-white p-6 shadow-sm"
@@ -47,24 +46,15 @@ export function Experience() {
               <p className="mt-1 text-sm uppercase tracking-[0.3em] text-primary">
                 {item.subtitle}
               </p>
-=======
-            <article key={item.title} className="rounded-[2rem] border border-border bg-white p-6 shadow-sm">
-              <h3 className="text-xl font-semibold text-foreground">{item.title}</h3>
-              <p className="mt-1 text-sm uppercase tracking-[0.3em] text-primary">{item.subtitle}</p>
->>>>>>> def13e7176bd68c3746aaa908cd5ce3b9ca2dded
               <p className="mt-4 text-sm leading-7 text-slate-700">{item.description}</p>
             </article>
           ))}
         </div>
 
         <div className="rounded-[2rem] border border-border bg-white p-6 shadow-sm">
-<<<<<<< HEAD
           <div className="mb-6 text-sm uppercase tracking-[0.3em] text-slate-500">
             Contact information
           </div>
-=======
-          <div className="mb-6 text-sm uppercase tracking-[0.3em] text-slate-500">Contact information</div>
->>>>>>> def13e7176bd68c3746aaa908cd5ce3b9ca2dded
           <div className="grid gap-4">
             {CONTACT_POINTS.map((item) => (
               <div key={item.label} className="rounded-3xl border border-slate-200 bg-slate-50 p-4">
@@ -83,7 +73,3 @@ export function Experience() {
     </Section>
   );
 }
-<<<<<<< HEAD
-=======
- 
->>>>>>> def13e7176bd68c3746aaa908cd5ce3b9ca2dded
