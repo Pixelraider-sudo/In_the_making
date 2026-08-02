@@ -32,16 +32,18 @@ export function About() {
       }
       intro="A focused set of frontend and product services designed to launch polished, modern digital experiences."
     >
-      <div className="grid gap-6 md:grid-cols-3">
-        {SERVICES.map((service) => (
-          <div key={service.title} className="rounded-[2rem] border border-border bg-white p-6 shadow-sm">
-            <h3 className="text-xl font-semibold text-foreground">{service.title}</h3>
-            <p className="mt-4 text-sm leading-7 text-slate-700">{service.description}</p>
-            <Button href="#contact" variant="outline" size="sm" className="mt-6">
-              Hire now
-            </Button>
-          </div>
-        ))}
+      <div className="marquee">
+        <div className="marquee-track" aria-hidden="false">
+          {SERVICES.concat(SERVICES).map((service, idx) => (
+            <div key={`${service.title}-${idx}`} className="marquee-item rounded-[2rem] border border-border bg-card p-6 shadow-sm">
+              <h3 className="text-xl font-semibold text-foreground">{service.title}</h3>
+              <p className="mt-4 text-sm leading-7 text-muted-foreground">{service.description}</p>
+              <Button href="#contact" variant="outline" size="sm" className="mt-6">
+                Hire now
+              </Button>
+            </div>
+          ))}
+        </div>
       </div>
     </Section>
   );

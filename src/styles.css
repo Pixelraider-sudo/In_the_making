@@ -410,6 +410,39 @@ html {
   animation: section-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+/* ── Horizontal marquee (infinite right → left) ─────────────────────────── */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 1.25rem;
+  align-items: stretch;
+  will-change: transform;
+  animation: marquee 24s linear infinite;
+}
+
+.marquee-item {
+  flex: 0 0 auto;
+}
+
+/* Pause marquee on hover for accessibility */
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
 /* ── Glitch flicker (use on ASCII / logo elements) ───────────────────────── */
 @keyframes glitch {
   0%,
