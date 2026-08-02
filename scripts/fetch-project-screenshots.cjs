@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const http = require("http");
 const https = require("https");
 const fs = require("fs");
@@ -11,10 +12,26 @@ const projects = [
   { name: "in-the-making", site: "https://in-the-making.vercel.app/" },
   { name: "campuscycle", site: "https://campus-cycle-mauve.vercel.app/" },
   { name: "cheptalal", site: "https://cheptalal-primary-school-gamma.vercel.app/" },
+=======
+const http = require('http');
+const https = require('https');
+const fs = require('fs');
+const { URL } = require('url');
+
+const outDir = './public/images/projects';
+if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+
+const projects = [
+  { name: 'xentro', site: 'https://xentro-technologies.vercel.app/' },
+  { name: 'in-the-making', site: 'https://in-the-making.vercel.app/' },
+  { name: 'campuscycle', site: 'https://campus-cycle-mauve.vercel.app/' },
+  { name: 'cheptalal', site: 'https://cheptalal-primary-school-gamma.vercel.app/' },
+>>>>>>> def13e7176bd68c3746aaa908cd5ce3b9ca2dded
 ];
 
 function fetch(url) {
   return new Promise((resolve, reject) => {
+<<<<<<< HEAD
     const lib = url.startsWith("https") ? https : http;
     lib
       .get(url, (res) => {
@@ -25,12 +42,26 @@ function fetch(url) {
         );
       })
       .on("error", reject);
+=======
+    const lib = url.startsWith('https') ? https : http;
+    lib
+      .get(url, (res) => {
+        let data = '';
+        res.on('data', (c) => (data += c.toString()));
+        res.on('end', () => resolve({ statusCode: res.statusCode, body: data, headers: res.headers }));
+      })
+      .on('error', reject);
+>>>>>>> def13e7176bd68c3746aaa908cd5ce3b9ca2dded
   });
 }
 
 function downloadFile(url, dest) {
   return new Promise((resolve, reject) => {
+<<<<<<< HEAD
     const lib = url.startsWith("https") ? https : http;
+=======
+    const lib = url.startsWith('https') ? https : http;
+>>>>>>> def13e7176bd68c3746aaa908cd5ce3b9ca2dded
     lib
       .get(url, (res) => {
         if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
@@ -39,17 +70,28 @@ function downloadFile(url, dest) {
         if (res.statusCode !== 200) return reject(new Error(`HTTP ${res.statusCode} for ${url}`));
         const file = fs.createWriteStream(dest);
         res.pipe(file);
+<<<<<<< HEAD
         file.on("finish", () => file.close(() => resolve(dest)));
         file.on("error", (err) => reject(err));
       })
       .on("error", reject);
+=======
+        file.on('finish', () => file.close(() => resolve(dest)));
+        file.on('error', (err) => reject(err));
+      })
+      .on('error', reject);
+>>>>>>> def13e7176bd68c3746aaa908cd5ce3b9ca2dded
   });
 }
 
 async function findImage(site, name) {
   try {
     const r = await fetch(site);
+<<<<<<< HEAD
     const html = r.body || "";
+=======
+    const html = r.body || '';
+>>>>>>> def13e7176bd68c3746aaa908cd5ce3b9ca2dded
     // try meta og:image
     let m = html.match(/<meta[^>]+property=["']og:image["'][^>]+content=["']([^"']+)["']/i);
     if (!m) m = html.match(/<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i);
@@ -100,5 +142,9 @@ async function findImage(site, name) {
       console.error(`Failed to download for ${p.name}: ${e.message}`);
     }
   }
+<<<<<<< HEAD
   console.log("Done.");
+=======
+  console.log('Done.');
+>>>>>>> def13e7176bd68c3746aaa908cd5ce3b9ca2dded
 })();

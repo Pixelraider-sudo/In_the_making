@@ -8,7 +8,11 @@ const SECTIONS = [
   { id: "projects", label: "projects" },
   { id: "skills", label: "skills" },
   { id: "certifications", label: "certs" },
+<<<<<<< HEAD
 
+=======
+  
+>>>>>>> def13e7176bd68c3746aaa908cd5ce3b9ca2dded
   { id: "devlog", label: "devlog" },
   { id: "contact", label: "contact" },
 ];

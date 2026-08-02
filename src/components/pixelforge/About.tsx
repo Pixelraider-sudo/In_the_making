@@ -35,10 +35,14 @@ export function About() {
       <div className="marquee">
         <div className="marquee-track" aria-hidden="false">
           {SERVICES.concat(SERVICES).map((service, idx) => (
+<<<<<<< HEAD
             <div
               key={`${service.title}-${idx}`}
               className="marquee-item rounded-[2rem] border border-border bg-card p-6 shadow-sm"
             >
+=======
+            <div key={`${service.title}-${idx}`} className="marquee-item rounded-[2rem] border border-border bg-card p-6 shadow-sm">
+>>>>>>> def13e7176bd68c3746aaa908cd5ce3b9ca2dded
               <h3 className="text-xl font-semibold text-foreground">{service.title}</h3>
               <p className="mt-4 text-sm leading-7 text-muted-foreground">{service.description}</p>
               <Button href="#contact" variant="outline" size="sm" className="mt-6">
@@ -51,3 +55,7 @@ export function About() {
     </Section>
   );
 }
+<<<<<<< HEAD
+=======
+ 
+>>>>>>> def13e7176bd68c3746aaa908cd5ce3b9ca2dded
