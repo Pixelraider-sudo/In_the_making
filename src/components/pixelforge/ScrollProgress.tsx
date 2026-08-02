@@ -6,11 +6,9 @@ const SECTIONS = [
   { id: "journey", label: "journey" },
   { id: "identity", label: "identity" },
   { id: "projects", label: "projects" },
-  { id: "roadmap", label: "roadmap" },
   { id: "skills", label: "skills" },
-  { id: "achievements", label: "achv" },
   { id: "certifications", label: "certs" },
-  { id: "focus", label: "focus" },
+  
   { id: "devlog", label: "devlog" },
   { id: "contact", label: "contact" },
 ];

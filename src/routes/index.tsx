@@ -7,11 +7,9 @@ import { Environment } from "@/components/pixelforge/Environment";
 import { Timeline } from "@/components/pixelforge/Timeline";
 import { Identity } from "@/components/pixelforge/Identity";
 import { Projects } from "@/components/pixelforge/Projects";
-import { Roadmap } from "@/components/pixelforge/Roadmap";
 import { Skills } from "@/components/pixelforge/Skills";
-import { Achievements } from "@/components/pixelforge/Achievements";
 import { Certifications } from "@/components/pixelforge/Certifications";
-import { Focus } from "@/components/pixelforge/Focus";
+
 import { DevLog } from "@/components/pixelforge/DevLog";
 import { Contact } from "@/components/pixelforge/Contact";
 import { Footer } from "@/components/pixelforge/Footer";
@@ -108,11 +106,10 @@ function IndexContent() {
           <Timeline />
           <Identity />
           <Projects />
-          <Roadmap />
           <Skills />
-          <Achievements />
+          
           <Certifications />
-          <Focus />
+          
           <DevLog />
           <Contact />
         </main>

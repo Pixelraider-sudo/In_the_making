@@ -12,7 +12,6 @@ const NAV_ITEMS = [
   { l: "identity", h: "#identity" },
   { l: "projects", h: "#projects" },
   { l: "skills", h: "#skills" },
-  { l: "roadmap", h: "#roadmap" },
   { l: "devlog", h: "#devlog" },
   { l: "contact", h: "#contact" },
 ];
