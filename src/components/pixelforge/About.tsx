@@ -1,6 +1,5 @@
 import { Section } from "./Section";
 import { Button } from "./ui/Button";
-import { Badge } from "./ui/Badge";
 
 const SERVICES = [
   {

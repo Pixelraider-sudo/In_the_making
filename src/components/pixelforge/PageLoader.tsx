@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+
 /**
  * Premium boot sequence.
  *
@@ -23,8 +24,8 @@ import { useEffect, useState } from "react";
  * real run from completing and calling onDone.
  */
 
-const READY_FLOOR_MS = 2500;
-const READY_CAP_MS = 3000;
+const READY_FLOOR_MS = 550;
+const READY_CAP_MS = 900;
 const FADE_MS = 280;
 
 const STAGES = [
@@ -86,6 +87,7 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
       onDone();
       return;
     }
+
     let cancelled = false;
 
     const runStages = async () => {
@@ -127,7 +129,7 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
       aria-valuenow={progress}
       aria-valuemin={0}
       aria-valuemax={100}
-      className="fixed inset-0 z-999 flex flex-col items-center justify-center overflow-hidden bg-background transition-opacity"
+      className="fixed inset-0 z-[999] flex flex-col items-center justify-center overflow-hidden bg-background transition-opacity"
       style={{
         opacity: gone ? 0 : 1,
         pointerEvents: gone ? "none" : "auto",
@@ -188,7 +190,7 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
         </p>
 
         <div className="mt-9 w-full">
-          <div className="h-0.75 w-full overflow-hidden rounded-full bg-border">
+          <div className="h-[3px] w-full overflow-hidden rounded-full bg-border">
             <div
               className="h-full rounded-full transition-[width] duration-300 ease-out"
               style={{
@@ -213,6 +215,7 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
     </div>
   );
 }
+
 /**
  * Abstract geometric mark: a hexagonal outline draws in (stroke
  * animation via pathLength normalization, so the dash math doesn't

@@ -110,12 +110,12 @@ export function DevLog() {
       <p className="mt-4 text-xs font-mono text-muted-foreground">
         <span className="text-primary">$</span> updated regularly ·{" "}
         <a
-          href="https://github.com/Kipkirui-John"
+          href="https://github.com/Pixelraider-sudo"
           target="_blank"
           rel="noreferrer"
           className="text-primary hover:underline"
         >
-          github.com/Kipkirui-John
+          github.com/Pixelraider-sudo
         </a>{" "}
         for commit history
       </p>

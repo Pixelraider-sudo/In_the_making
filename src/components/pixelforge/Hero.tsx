@@ -158,7 +158,7 @@ export function Hero({ onOpenTerminal }: { onOpenTerminal: () => void }) {
                 </Button>
               )}
               <Button
-                href="https://github.com/Kipkirui-John"
+                href="https://github.com/Pixelraider-sudo"
                 target="_blank"
                 rel="noreferrer"
                 variant="outline"
@@ -168,7 +168,7 @@ export function Hero({ onOpenTerminal }: { onOpenTerminal: () => void }) {
                 <Github className="h-4 w-4" />
               </Button>
               <Button
-                href="https://linkedin.com/in/kipkirui-john"
+                href="https://www.linkedin.com/in/kipkirui-john-aa31b941b/"
                 target="_blank"
                 rel="noreferrer"
                 variant="outline"

@@ -60,7 +60,7 @@ export function Footer() {
 
           {/* Center — open source */}
           <a
-            href="https://github.com/Kipkirui-John/in-the-making"
+            href="https://github.com/Pixelraider-sudo/In_the_making"
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 text-xs font-mono text-muted-foreground hover:text-primary transition-colors"

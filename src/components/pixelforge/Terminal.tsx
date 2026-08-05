@@ -12,7 +12,7 @@ const responses: Record<string, string> = {
   projects:
     "* PIXELFORGE — developer ecosystem (React + TS + Vite)\n  status: live · expansion: full-stack",
   contact:
-    "email   : hello@pixelforge.dev\ngithub  : github.com/pixelforge\nlinkedin: linkedin.com/in/pixelforge",
+    "email   : kipkiruijohn814@gmail.com\nphone   : +254 790 563 520\ngithub  : github.com/Pixelraider-sudo\nlinkedin: linkedin.com/in/kipkirui-john-aa31b941b",
   whoami: "guest@pixelforge ~ growth-mode developer",
 };
 

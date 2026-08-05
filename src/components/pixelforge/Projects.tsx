@@ -39,7 +39,7 @@ const PROJECTS: Project[] = [
     ],
     tags: ["full-stack", "ai", "open-source", "frontend"],
     live: "https://pixelforge-u8gc.vercel.app",
-    repo: "https://github.com/Kipkirui-John/pixelforge",
+    repo: "https://github.com/Pixelraider-sudo/pixelforge",
     featured: true,
     status: "live",
   },
@@ -51,7 +51,7 @@ const PROJECTS: Project[] = [
     stack: ["React", "TypeScript", "Vite", "TailwindCSS", "TanStack Router", "Vercel"],
     tags: ["frontend", "open-source"],
     live: "https://in-the-making.vercel.app",
-    repo: "https://github.com/Kipkirui-John/in-the-making",
+    repo: "https://github.com/Pixelraider-sudo/In_the_making",
     featured: true,
     status: "live",
   },
@@ -71,6 +71,7 @@ const PROJECTS: Project[] = [
     ],
     tags: ["full-stack", "client"],
     status: "shipped",
+    caseStudySlug: "sperian-studios-rental-platform",
   },
   {
     title: "BabyForge — Pregnancy & Parenting App",
@@ -264,12 +265,12 @@ export function Projects() {
       <p className="mt-6 text-xs font-mono text-muted-foreground">
         <span className="text-primary">$</span> More work lives at{" "}
         <a
-          href="https://github.com/Kipkirui-John"
+          href="https://github.com/Pixelraider-sudo"
           target="_blank"
           rel="noreferrer"
           className="text-primary hover:underline"
         >
-          github.com/Kipkirui-John
+          github.com/Pixelraider-sudo
         </a>{" "}
         · actively adding new repos
       </p>

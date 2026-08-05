@@ -19,7 +19,7 @@ const EDUCATION = [
 const CONTACT_POINTS = [
   { label: "Country", value: "Kenya" },
   { label: "City", value: "Nairobi" },
-  { label: "Email", value: "kipkiruijohn@gmail.com" },
+  { label: "Email", value: "kipkiruijohn814@gmail.com" },
   { label: "Availability", value: "Open for new work" },
 ];
 

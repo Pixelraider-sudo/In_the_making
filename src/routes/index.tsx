@@ -21,6 +21,7 @@ import { KonamiEgg } from "@/components/pixelforge/KonamiEgg";
 import { EngineeringModeProvider, useEngineeringMode } from "@/lib/engineering-mode";
 
 import { PageLoader } from "@/components/pixelforge/PageLoader";
+import { GitHubStats } from "@/components/pixelforge/GitHubStats";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -92,7 +93,7 @@ function IndexContent() {
       <PageLoader onDone={() => setBooted(true)} />
 
       <div
-        className={`min-h-screen transition-opacity duration-700 ${
+        className={`min-h-screen transition-opacity duration-500 ${
           booted ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
       >
@@ -107,8 +108,11 @@ function IndexContent() {
           <Identity />
           <Projects />
           <Skills />
+
           <Certifications />
+
           <DevLog />
+          <GitHubStats />
           <Contact />
         </main>
 

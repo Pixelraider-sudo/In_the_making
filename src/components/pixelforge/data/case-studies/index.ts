@@ -1,5 +1,6 @@
 import type { CaseStudy } from "../case-study-types";
 import { exampleCaseStudy } from "./example-case-study";
+import { sperianStudiosCaseStudy } from "./sperian-studios-rental-platform";
 
 /**
  * Registry of all case studies, keyed by slug.
@@ -14,6 +15,7 @@ import { exampleCaseStudy } from "./example-case-study";
  */
 const CASE_STUDIES: Record<string, CaseStudy> = {
   [exampleCaseStudy.slug]: exampleCaseStudy,
+  [sperianStudiosCaseStudy.slug]: sperianStudiosCaseStudy,
 };
 
 export function getCaseStudy(slug: string): CaseStudy | undefined {

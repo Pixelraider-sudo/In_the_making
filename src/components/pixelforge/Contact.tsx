@@ -1,6 +1,7 @@
 import { Section } from "./Section";
 import {
   Mail,
+  Phone,
   Github,
   Linkedin,
   MessageCircle,
@@ -10,15 +11,16 @@ import {
   ExternalLink,
 } from "lucide-react";
 
-// ─── UPDATE THESE WITH YOUR REAL INFO ───────────────────────────────────────
+// ─── CONTACT INFO ────────────────────────────────────────────────────────────
 const CONTACT_INFO = {
-  email: "kipkiruijohn@gmail.com", // ← your real email
-  github: "github.com/Kipkirui-John",
-  githubUrl: "https://github.com/Kipkirui-John",
-  linkedin: "linkedin.com/in/kipkirui-john",
-  linkedinUrl: "https://linkedin.com/in/kipkirui-john",
-  whatsapp: "+254 XXX XXX XXX", // ← your real number
-  whatsappUrl: "https://wa.me/254XXXXXXXXX",
+  email: "kipkiruijohn814@gmail.com",
+  phone: "+254 790 563 520",
+  github: "github.com/Pixelraider-sudo",
+  githubUrl: "https://github.com/Pixelraider-sudo",
+  linkedin: "linkedin.com/in/kipkirui-john-aa31b941b",
+  linkedinUrl: "https://www.linkedin.com/in/kipkirui-john-aa31b941b/",
+  whatsapp: "+254 740 838 078",
+  whatsappUrl: "https://wa.me/254740838078",
   location: "Nairobi, Kenya",
   timezone: "EAT (UTC+3)",
 };
@@ -31,6 +33,13 @@ const PRIMARY_LINKS = [
     value: CONTACT_INFO.email,
     href: `mailto:${CONTACT_INFO.email}`,
     preferred: true,
+  },
+  {
+    icon: Phone,
+    label: "phone",
+    value: CONTACT_INFO.phone,
+    href: `tel:${CONTACT_INFO.phone.replace(/\s+/g, "")}`,
+    preferred: false,
   },
   {
     icon: Github,
@@ -171,7 +180,7 @@ export function Contact() {
       <div className="mt-8 rounded-lg border border-border/50 bg-card/40 px-5 py-4 font-mono text-xs text-muted-foreground">
         <span className="text-primary">$</span> This portfolio is{" "}
         <a
-          href="https://github.com/Kipkirui-John/in-the-making"
+          href="https://github.com/Pixelraider-sudo/In_the_making"
           target="_blank"
           rel="noreferrer"
           className="text-primary hover:underline"

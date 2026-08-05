@@ -32,12 +32,32 @@ export const Route = createRootRouteWithContext<{
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Kipkirui John | Portfolio" },
-      { name: "description", content: "Portfolio of Kipkirui John" },
-      { property: "og:title", content: "Kipkirui John | Portfolio" },
-      { property: "og:description", content: "Software engineer portfolio" },
+      { title: "Kipkirui John | Software Engineer" },
+      {
+        name: "description",
+        content:
+          "Full-stack systems, production APIs, and AI-integrated tools — Kipkirui John, Software Engineer based in Nairobi, Kenya.",
+      },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://in-the-making.vercel.app/" },
+      { property: "og:title", content: "Kipkirui John | Software Engineer" },
+      {
+        property: "og:description",
+        content: "Full-stack systems, production APIs, and AI-integrated tools.",
+      },
+      { property: "og:image", content: "https://in-the-making.vercel.app/og-image.png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Kipkirui John | Software Engineer" },
+      {
+        name: "twitter:description",
+        content: "Full-stack systems, production APIs, and AI-integrated tools.",
+      },
+      { name: "twitter:image", content: "https://in-the-making.vercel.app/og-image.png" },
     ],
     links: [
+      { rel: "canonical", href: "https://in-the-making.vercel.app/" },
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       {
@@ -56,6 +76,33 @@ export const Route = createRootRouteWithContext<{
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
+
+/* ---------------------------
+   STRUCTURED DATA (JSON-LD)
+   Helps search engines understand this page is about a specific
+   person, their job title, and their real social/professional
+   profiles — can improve how the site appears in search results
+   for "Kipkirui John".
+--------------------------- */
+const PERSON_SCHEMA = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Kipkirui John",
+  jobTitle: "Frontend Developer",
+  url: "https://in-the-making.vercel.app/",
+  image: "https://in-the-making.vercel.app/profile.jpg",
+  email: "mailto:kipkiruijohn814@gmail.com",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Nairobi",
+    addressCountry: "KE",
+  },
+  sameAs: [
+    "https://github.com/Pixelraider-sudo",
+    "https://www.linkedin.com/in/kipkirui-john-aa31b941b/",
+  ],
+  knowsAbout: ["React", "Next.js", "TypeScript", "JavaScript", "Tailwind CSS"],
+};
 
 /* ---------------------------
    ROOT COMPONENT
@@ -86,6 +133,10 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <HeadContent />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_SCHEMA) }}
+      />
 
       <Outlet />
 

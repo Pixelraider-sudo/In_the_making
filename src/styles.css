@@ -473,6 +473,7 @@ html {
   outline-offset: 2px;
   border-radius: 4px;
 }
+
 /* --------------------------------------------------------------
    BOOT SEQUENCE — premium loader
    Real, tasteful motion tied to the site's actual brand tokens
@@ -575,5 +576,60 @@ html {
     .animate-pf-orb-b {
       animation: none;
     }
+  }
+}
+
+/* --------------------------------------------------------------
+   PRINT
+   Without this, printing/PDF-exporting the site renders the full
+   dark background, grid overlay, and nav chrome onto paper — a real
+   problem for recruiters who print or export pages for internal
+   review. This strips it down to readable content on a plain white
+   page instead.
+   -------------------------------------------------------------- */
+@media print {
+  /* Override the actual design-token custom properties, not just
+     `body` — most components read colors via `var(--foreground)`,
+     `var(--muted-foreground)`, `var(--card)`, etc. directly, so only
+     forcing a color on `body` leaves every one of those elements
+     still rendering light-on-dark-was-meant-for text that's nearly
+     invisible against a forced-white page. */
+  :root,
+  .dark {
+    --background: #ffffff !important;
+    --foreground: #111111 !important;
+    --card: #ffffff !important;
+    --card-foreground: #111111 !important;
+    --muted: #f2f2f2 !important;
+    --muted-foreground: #444444 !important;
+    --border: #cccccc !important;
+    --primary: #b5651d !important;
+    --primary-foreground: #ffffff !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    background-image: none !important;
+  }
+
+  /* Chrome/decoration that only makes sense on-screen */
+  nav,
+  footer,
+  [role="progressbar"],
+  .animate-pf-orb-a,
+  .animate-pf-orb-b {
+    display: none !important;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+    backdrop-filter: none !important;
   }
 }
