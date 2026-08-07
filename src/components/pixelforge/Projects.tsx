@@ -6,7 +6,7 @@ import { Button } from "./ui/Button";
 import { Badge } from "./ui/Badge";
 import { StatusDot, type StatusTone } from "./ui/StatusDot";
 
-type Tag = "all" | "ai" | "full-stack" | "client" | "frontend" | "open-source";
+type Tag = "all" | "full-stack" | "client" | "frontend" | "open-source";
 
 type Project = {
   title: string;
@@ -24,36 +24,28 @@ type Project = {
 
 const PROJECTS: Project[] = [
   {
-    title: "PIXELFORGE — Developer Ecosystem",
-    desc: "Personal developer platform and brand: 9 divisions (Dev, AI, Labs, Security, Cloud, Mobile, Community, Garage, Media), AI Command Center powered by the Anthropic API with streaming markdown, full dark cyberpunk design system.",
-    detail:
-      "Built on React 18 + TypeScript + Vite + Tailwind CSS + Framer Motion. Includes a fully interactive terminal (Ctrl+K), Konami egg, live scroll progress, and theme switcher. AI Command Center covers all 10 division categories with real-time streaming responses.",
-    stack: [
-      "React 18",
-      "TypeScript",
-      "Vite",
-      "Tailwind CSS",
-      "Framer Motion",
-      "Anthropic API",
-      "Vercel",
-    ],
-    tags: ["full-stack", "ai", "open-source", "frontend"],
-    live: "https://pixelforge-u8gc.vercel.app",
-    repo: "https://github.com/Pixelraider-sudo/pixelforge",
-    featured: true,
-    status: "live",
-  },
-  {
     title: "This Portfolio — In The Making",
-    desc: "The very site you're reading. A systems-first developer portfolio designed as a dashboard of modules — each section a running process. Terminal, DevLog, Roadmap, Achievements, and live environment graph.",
+    desc: "A modern developer portfolio built with Vite, TypeScript, and React — interactive sections, a clean UI, and responsive design showcasing projects, skills, and achievements.",
     detail:
-      "Single-page React + TypeScript app. Features a scanline cyberpunk aesthetic, Orbitron/Space Grotesk typography, an animated skill-tree roadmap, Konami egg easter egg, live uptime counter, and persistent audio cues.",
-    stack: ["React", "TypeScript", "Vite", "TailwindCSS", "TanStack Router", "Vercel"],
+      "The very site you're reading. Single-page React + TypeScript app built on Vite and TanStack Router, with a full custom design-token system (typography scale, motion tokens, elevation), a cinematic boot sequence, an opt-in Engineering Mode, and CI running lint/typecheck/tests/build on every push.",
+    stack: ["React", "TypeScript", "Vite", "Tailwind CSS", "TanStack Router", "Vercel"],
     tags: ["frontend", "open-source"],
     live: "https://in-the-making.vercel.app",
     repo: "https://github.com/Pixelraider-sudo/In_the_making",
     featured: true,
     status: "live",
+  },
+  {
+    title: "Xentro Technologies",
+    desc: "Software engineering portfolio and digital solutions platform for a Kenyan tech consultancy — an interactive service catalog and project-discovery wizard.",
+    detail:
+      "Built with Next.js 15, TypeScript, Tailwind CSS, and Framer Motion. Covers a service catalog, an interactive discovery flow for prospective clients, and a fully responsive marketing site.",
+    stack: ["Next.js 15", "TypeScript", "Tailwind CSS", "Framer Motion"],
+    tags: ["frontend", "client"],
+    live: "https://xentro-technologies.vercel.app/",
+    repo: "https://github.com/Pixelraider-sudo/Xentro-Technologies",
+    featured: true,
+    status: "shipped",
   },
   {
     title: "Sperian Studios — Rental Platform",
@@ -74,29 +66,32 @@ const PROJECTS: Project[] = [
     caseStudySlug: "sperian-studios-rental-platform",
   },
   {
-    title: "BabyForge — Pregnancy & Parenting App",
-    desc: "Zero-dependency single-page application for pregnancy tracking and early parenting. Week-by-week pregnancy timeline, symptom checker, feeding/diaper log — all with localStorage persistence.",
+    title: "CampusCycle",
+    desc: "Fully front-end bike rental management system for university campuses — real-time fleet tracking, dynamic pricing, and M-Pesa/cash payment handling.",
     detail:
-      "Built with no external frameworks or libraries. Pure HTML, CSS, and vanilla JavaScript. LocalStorage data persistence across sessions. Responsive mobile-first layout. Designed for low-bandwidth environments.",
-    stack: ["HTML", "CSS", "Vanilla JS", "localStorage API"],
+      "Owner-only account creation, an admin dashboard for fleet management, and bike image galleries with auto-rotation. Built entirely on the front end with no backend service.",
+    stack: ["React", "JavaScript", "Tailwind CSS"],
     tags: ["frontend"],
+    live: "https://campus-cycle-mauve.vercel.app/",
+    repo: "https://github.com/Pixelraider-sudo/CampusCycle",
     status: "shipped",
   },
   {
-    title: "AI Command Center",
-    desc: "Standalone AI-powered dashboard using the Anthropic API. Multi-category prompt routing across 10 PIXELFORGE division domains — from DevOps questions to Security advisories — with streaming markdown rendering.",
+    title: "Cheptalal Primary School",
+    desc: "A premium digital-transformation concept for a Kenyan primary school — CBC-focused content, admissions, academics, and school-life sections.",
     detail:
-      "Built with React and the Anthropic claude-sonnet-4-6 model. Server-side API key handling, real-time token streaming, category-aware system prompts, markdown parser for code blocks, and a full dark terminal UI.",
-    stack: ["React", "TypeScript", "Anthropic API", "Streaming", "Markdown parser"],
-    tags: ["ai", "full-stack"],
-    status: "live",
+      "Fully responsive, accessibility-conscious build for a public-facing school website. Covers admissions info, academics, and school-life content aligned to Kenya's CBC curriculum.",
+    stack: ["Next.js", "TypeScript", "Tailwind CSS"],
+    tags: ["frontend", "client"],
+    live: "https://cheptalal-primary-school-gamma.vercel.app/",
+    repo: "https://github.com/Pixelraider-sudo/cheptalal-primary-school",
+    status: "shipped",
   },
 ];
 
 const FILTER_LABELS: { key: Tag; label: string }[] = [
   { key: "all", label: "all" },
   { key: "full-stack", label: "full-stack" },
-  { key: "ai", label: "AI" },
   { key: "client", label: "client work" },
   { key: "frontend", label: "frontend" },
   { key: "open-source", label: "open-source" },

@@ -23,14 +23,14 @@ const seed: Cert[] = [
     title: "React + TypeScript Full Course",
     issuer: "Self-directed · freeCodeCamp + official docs",
     date: "2023",
-    note: "Completed structured curriculum covering React 18 hooks, TypeScript generics, component patterns, and state management. Applied directly to PIXELFORGE production builds.",
+    note: "Completed structured curriculum covering React 18 hooks, TypeScript generics, component patterns, and state management. Applied directly across production builds, including this portfolio.",
     category: "course",
   },
   {
     title: "Anthropic API & Prompt Engineering",
     issuer: "Anthropic Documentation + Build",
     date: "2024",
-    note: "Hands-on mastery of the Anthropic claude-sonnet-4-6 API — streaming, structured outputs, system prompts, tool use. Delivered live AI Command Center as proof-of-work.",
+    note: "Hands-on study of the Anthropic API — streaming, structured outputs, system prompts, and tool use.",
     category: "platform",
   },
   {

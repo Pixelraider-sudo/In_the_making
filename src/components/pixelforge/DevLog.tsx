@@ -19,13 +19,6 @@ const entries: Entry[] = [
     commit: "feat: phase-2-frontend-polish",
   },
   {
-    date: "May 2025",
-    title: "Shipped AI Command Center — streaming Anthropic API with markdown",
-    body: "Built a full AI-powered dashboard on top of the Anthropic claude-sonnet-4-6 API. Category-aware system prompts route questions across 10 PIXELFORGE division domains. Real-time token streaming, markdown parser with code block support, and a dark terminal UI. Hardest part: getting the stream reader to correctly flush partial JSON chunks without breaking the renderer. Solved with a TextDecoder + buffer accumulation pattern.",
-    tag: "AI · build",
-    commit: "feat: ai-command-center-streaming",
-  },
-  {
     date: "Apr 2025",
     title: "Sperian Studios — delivered full rental platform to client",
     body: "Solo delivery of 13 production files: landing page, listings grid, property detail, Node.js/Express REST API (8 endpoints), PostgreSQL relational schema (tenants, properties, bookings, payments), M-Pesa Daraja integration, and Stripe fallback. Biggest learning: M-Pesa's STK Push requires a specific base64 timestamp format that's not clearly documented — cost me 3 hours. Documented it in my personal notes for next time.",
