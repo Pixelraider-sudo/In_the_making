@@ -1,27 +1,29 @@
 import type { CaseStudy } from "../case-study-types";
+
 import { exampleCaseStudy } from "./example-case-study";
 import { sperianStudiosCaseStudy } from "./sperian-studios-rental-platform";
 
 /**
- * Registry of all case studies, keyed by slug.
+ * Central registry of published case studies.
  *
- * To publish a real case study:
- *   1. Create `data/case-studies/<slug>.ts` exporting a `CaseStudy` object
- *      (see `example-case-study.ts` for the shape / `case-study-types.ts`
- *      for the full schema).
- *   2. Import + register it below.
- *   3. Add `caseStudySlug: "<slug>"` to the matching entry in
- *      `data/projects.ts` so the project card links to it.
+ * A project detail page works only when its caseStudySlug matches
+ * a slug registered here.
+ *
+ * To publish a case study:
+ * 1. Create a CaseStudy object in its own file.
+ * 2. Import it here and add it to CASE_STUDIES.
+ * 3. Add the same slug to the matching project in data/projects.ts.
  */
-const CASE_STUDIES: Record<string, CaseStudy> = {
-  [exampleCaseStudy.slug]: exampleCaseStudy,
-  [sperianStudiosCaseStudy.slug]: sperianStudiosCaseStudy,
-};
+const registeredCaseStudies: CaseStudy[] = [sperianStudiosCaseStudy, exampleCaseStudy];
+
+const CASE_STUDIES: ReadonlyMap<string, CaseStudy> = new Map(
+  registeredCaseStudies.map((caseStudy) => [caseStudy.slug, caseStudy]),
+);
 
 export function getCaseStudy(slug: string): CaseStudy | undefined {
-  return CASE_STUDIES[slug];
+  return CASE_STUDIES.get(slug);
 }
 
 export function getAllCaseStudySlugs(): string[] {
-  return Object.keys(CASE_STUDIES);
+  return [...CASE_STUDIES.keys()];
 }
