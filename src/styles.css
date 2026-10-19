@@ -1,65 +1,654 @@
-/* ==========================================================
-   RESPONSIVE EXPERIENCE UPGRADE
-   Readability, mobile typography, touch targets and overflow
-   ========================================================== */
+/* MUST be first */
+@import "tailwindcss";
+@import "tw-animate-css";
 
-/* Comfortable defaults */
-html {
-  font-size: 16px;
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-  scroll-padding-top: 5rem;
+/* sources */
+@source "../src";
+
+/* --------------------------------
+   THEME MAPPING
+-------------------------------- */
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Micro-typography scale — increased for readability. */
+  --text-4xs: 0.6875rem;
+  --text-4xs--line-height: 1rem;
+
+  --text-3xs: 0.75rem;
+  --text-3xs--line-height: 1.05rem;
+
+  --text-2xs: 0.8125rem;
+  --text-2xs--line-height: 1.2rem;
+
+  /* Motion scale */
+  --duration-fast: 150ms;
+  --duration-base: 220ms;
+  --duration-slow: 400ms;
+  --ease-standard: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Elevation scale */
+  --shadow-elevation-1: 0 1px 2px oklch(0 0 0 / 0.16);
+  --shadow-elevation-2: 0 4px 16px -4px oklch(0 0 0 / 0.28);
+  --shadow-elevation-3: 0 16px 40px -8px oklch(0 0 0 / 0.4);
+
+  /* --------------------------------------------------------------
+     TYPE SCALE
+     Larger, fluid type sizes for desktop, tablet, and mobile.
+     -------------------------------------------------------------- */
+
+  /* Display */
+  --text-display-xl: clamp(3rem, 2.2rem + 3.8vw, 4.75rem);
+  --text-display-xl--line-height: 1.08;
+  --text-display-xl--letter-spacing: -0.025em;
+  --text-display-xl--font-weight: 700;
+
+  --text-display-lg: clamp(2.5rem, 1.9rem + 2vw, 3.25rem);
+  --text-display-lg--line-height: 1.12;
+  --text-display-lg--letter-spacing: -0.015em;
+  --text-display-lg--font-weight: 600;
+
+  /* Headings */
+  --text-heading-lg: clamp(2rem, 1.35rem + 2.6vw, 3.125rem);
+  --text-heading-lg--line-height: 1.15;
+  --text-heading-lg--letter-spacing: -0.02em;
+  --text-heading-lg--font-weight: 700;
+
+  --text-heading-md: clamp(1.625rem, 1.3rem + 1vw, 2rem);
+  --text-heading-md--line-height: 1.22;
+  --text-heading-md--letter-spacing: -0.01em;
+  --text-heading-md--font-weight: 700;
+
+  /* Titles */
+  --text-title-lg: clamp(1.375rem, 1.12rem + 0.8vw, 1.625rem);
+  --text-title-lg--line-height: 1.35;
+  --text-title-lg--font-weight: 600;
+
+  --text-title-md: 1.25rem;
+  --text-title-md--line-height: 1.45;
+  --text-title-md--font-weight: 600;
+
+  --text-title-sm: 1.125rem;
+  --text-title-sm--line-height: 1.45;
+  --text-title-sm--font-weight: 600;
+
+  /* Body copy */
+  --text-body-lg: clamp(1.125rem, 1rem + 0.4vw, 1.25rem);
+  --text-body-lg--line-height: 1.75;
+
+  --text-body-md: 1rem;
+  --text-body-md--line-height: 1.75;
+
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.65;
+
+  /* Caption / Label / Overline */
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.5;
+
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.45;
+  --text-label--letter-spacing: 0.05em;
+  --text-label--font-weight: 500;
+
+  --text-overline: 0.8125rem;
+  --text-overline--line-height: 1.5;
+  --text-overline--letter-spacing: 0.2em;
+  --text-overline--font-weight: 500;
+
+  /* Code / Quote */
+  --text-code: 0.9375rem;
+  --text-code--line-height: 1.7;
+
+  --text-quote: 1.25rem;
+  --text-quote--line-height: 1.75;
 }
 
-body {
-  font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 1rem;
-  line-height: 1.65;
+/* --------------------------------
+   ROOT THEME
+-------------------------------- */
+
+:root {
+  --radius: 0.5rem;
+
+  --background: oklch(0.16 0.03 270);
+  --foreground: oklch(0.96 0.01 240);
+
+  --card: oklch(0.2 0.035 270);
+  --card-foreground: oklch(0.96 0.01 240);
+
+  --popover: oklch(0.18 0.03 270);
+  --popover-foreground: oklch(0.96 0.01 240);
+
+  /* AMBER / ORANGE CORE THEME */
+  --primary: oklch(0.78 0.17 60);
+  --secondary: oklch(0.7 0.2 35);
+  --accent: oklch(0.85 0.16 85);
+
+  --muted: oklch(0.24 0.03 270);
+
+  --border: oklch(0.3 0.04 270);
+  --input: oklch(0.26 0.035 270);
+  --ring: oklch(0.78 0.17 60);
+
+  --grid-color: oklch(0.78 0.17 60 / 0.07);
+
+  /* FX SYSTEM */
+  --shadow-glow: 0 0 40px oklch(0.78 0.17 60 / 0.25);
+
+  --gradient-forge: linear-gradient(
+    135deg,
+    oklch(0.78 0.17 60),
+    oklch(0.7 0.2 35),
+    oklch(0.85 0.16 85)
+  );
+}
+
+/* --------------------------------
+   DARK MODE
+-------------------------------- */
+
+.dark {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+
+  --card: oklch(0.208 0.042 265.755);
+  --popover: oklch(0.208 0.042 265.755);
+
+  --primary: oklch(0.78 0.17 60);
+  --secondary: oklch(0.7 0.2 35);
+  --accent: oklch(0.85 0.16 85);
+
+  --muted: oklch(0.279 0.041 260.031);
+
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.78 0.17 60);
+}
+
+/* --------------------------------
+   BASE
+-------------------------------- */
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    color-scheme: dark;
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 1rem;
+    line-height: 1.7;
+
+    background-image:
+      linear-gradient(var(--grid-color) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+
+    background-size: 48px 48px;
+    background-attachment: fixed;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* --------------------------------
+   UTILITIES
+-------------------------------- */
+
+@utility elevation-1 {
+  box-shadow: var(--shadow-elevation-1);
+}
+
+@utility elevation-2 {
+  box-shadow: var(--shadow-elevation-2);
+}
+
+@utility elevation-3 {
+  box-shadow: var(--shadow-elevation-3);
+}
+
+@layer utilities {
+  .text-gradient-forge {
+    background: var(--gradient-forge);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .border-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .transition-standard {
+    transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+    transition-duration: var(--duration-base);
+    transition-timing-function: var(--ease-standard);
+  }
+
+  /* Glass Card System */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(18px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 1rem;
+    transition:
+      transform var(--duration-base) var(--ease-standard),
+      box-shadow var(--duration-base) var(--ease-standard),
+      border-color var(--duration-base) var(--ease-standard);
+  }
+
+  .glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-glow);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* --------------------------------
+   ANIMATIONS
+-------------------------------- */
+
+/* caret blink */
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.caret {
+  animation: blink 1s steps(1) infinite;
+}
+
+/* glow pulse */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px oklch(0.78 0.17 60 / 0.25);
+  }
+
+  50% {
+    box-shadow: 0 0 45px oklch(0.7 0.2 35 / 0.55);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* Smooth reveal animation */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: fadeUp 0.8s ease-out both;
+}
+
+html,
+body,
+#root {
+  height: auto;
+  min-height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Text selection */
+::selection {
+  background: oklch(0.82 0.16 200 / 0.25);
+  color: oklch(0.96 0.01 240);
+}
+
+::-moz-selection {
+  background: oklch(0.82 0.16 200 / 0.25);
+  color: oklch(0.96 0.01 240);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: oklch(0.16 0.03 270);
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(0.82 0.16 200 / 0.4);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.82 0.16 200 / 0.7);
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Section fade-in on scroll */
+@keyframes section-in {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.section-animate {
+  opacity: 0;
+}
+
+.section-animate.in-view {
+  animation: section-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Horizontal marquee */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  position: relative;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 1.25rem;
+  align-items: stretch;
+  will-change: transform;
+  animation: marquee 24s linear infinite;
+}
+
+.marquee-item {
+  flex: 0 0 auto;
+}
+
+.marquee:hover .marquee-track,
+.marquee:focus-within .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Glitch flicker */
+@keyframes glitch {
+  0%,
+  100% {
+    clip-path: none;
+    transform: none;
+  }
+
+  20% {
+    clip-path: inset(20% 0 60% 0);
+    transform: translateX(-3px);
+  }
+
+  40% {
+    clip-path: inset(60% 0 20% 0);
+    transform: translateX(3px);
+  }
+
+  60% {
+    clip-path: none;
+    transform: none;
+  }
+}
+
+.animate-glitch:hover {
+  animation: glitch 0.4s steps(1) 1;
+}
+
+/* Focus ring override */
+*:focus-visible {
+  outline: 2px solid oklch(0.82 0.16 200 / 0.7);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------------
+   BOOT SEQUENCE — premium loader
+   -------------------------------------------------------------- */
+
+@keyframes pf-draw-outline {
+  from {
+    stroke-dashoffset: 1;
+    opacity: 0;
+  }
+
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes pf-mark-fill {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pf-glow-pulse {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 10px oklch(0.78 0.17 60 / 0.35));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 26px oklch(0.78 0.17 60 / 0.6));
+  }
+}
+
+@keyframes pf-rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+    filter: blur(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes pf-orb-drift-a {
+  0%,
+  100% {
+    transform: translate(-6%, -4%) scale(1);
+  }
+
+  50% {
+    transform: translate(4%, 6%) scale(1.12);
+  }
+}
+
+@keyframes pf-orb-drift-b {
+  0%,
+  100% {
+    transform: translate(5%, 3%) scale(1);
+  }
+
+  50% {
+    transform: translate(-4%, -5%) scale(1.08);
+  }
+}
+
+@layer utilities {
+  .animate-pf-draw-outline {
+    animation: pf-draw-outline 700ms var(--ease-out-soft) forwards;
+  }
+
+  .animate-pf-mark-fill {
+    animation: pf-mark-fill var(--duration-slow) var(--ease-standard) forwards;
+  }
+
+  .animate-pf-glow-pulse {
+    animation: pf-glow-pulse 2.6s var(--ease-standard) infinite;
+  }
+
+  .animate-pf-rise-in {
+    animation: pf-rise-in var(--duration-slow) var(--ease-out-soft) forwards;
+  }
+
+  .animate-pf-orb-a {
+    animation: pf-orb-drift-a 9s var(--ease-standard) infinite;
+  }
+
+  .animate-pf-orb-b {
+    animation: pf-orb-drift-b 11s var(--ease-standard) infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-pf-draw-outline,
+    .animate-pf-mark-fill,
+    .animate-pf-glow-pulse,
+    .animate-pf-rise-in,
+    .animate-pf-orb-a,
+    .animate-pf-orb-b {
+      animation: none;
+    }
+  }
+}
+
+/* --------------------------------------------------------------
+   PRINT
+   -------------------------------------------------------------- */
+
+@media print {
+  :root,
+  .dark {
+    --background: #ffffff !important;
+    --foreground: #111111 !important;
+    --card: #ffffff !important;
+    --card-foreground: #111111 !important;
+    --muted: #f2f2f2 !important;
+    --muted-foreground: #444444 !important;
+    --border: #cccccc !important;
+    --primary: #b5651d !important;
+    --primary-foreground: #ffffff !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    background-image: none !important;
+  }
+
+  nav,
+  footer,
+  [role="progressbar"],
+  .animate-pf-orb-a,
+  .animate-pf-orb-b {
+    display: none !important;
+  }
+
+  a {
+    text-decoration: underline;
+  }
+
+  * {
+    box-shadow: none !important;
+    text-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
+/* ==============================================================
+   RESPONSIVE TYPOGRAPHY ENHANCEMENTS
+   Keep the original colors, background, font family, and layout.
+   These rules only improve reading and wrapping on smaller screens.
+   ============================================================== */
+
+/* Prevent text from shrinking below the browser's intended sizing. */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Keep long text from spilling outside its own content area. */
+p,
+li,
+dd,
+blockquote {
   overflow-wrap: break-word;
 }
 
-/* Keep code, terminal output and explicitly monospace UI technical */
-code,
-pre,
-kbd,
-.font-mono {
-  font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-}
-
-img,
-video,
-canvas,
-svg {
-  max-width: 100%;
-}
-
-img,
-video {
-  height: auto;
-}
-
-button,
-input,
-select,
-textarea {
-  font: inherit;
-}
-
-button,
-[role="button"] {
-  touch-action: manipulation;
-}
-
-button:disabled,
-[aria-disabled="true"] {
-  cursor: not-allowed;
-}
-
-/* Improve long-form reading */
-p {
-  text-wrap: pretty;
-}
-
+/* Headings wrap naturally rather than overflowing narrow screens. */
 h1,
 h2,
 h3,
@@ -68,187 +657,203 @@ h4 {
   overflow-wrap: anywhere;
 }
 
-a {
-  overflow-wrap: anywhere;
+/* Keep images and video within their parent containers. */
+img,
+video {
+  max-width: 100%;
+  height: auto;
 }
 
-/* Strengthen the existing type scale */
-.text-display-xl {
-  font-size: clamp(2.75rem, 7vw, 4.5rem);
-  line-height: 1.04;
+/* Make form controls inherit the existing font instead of switching fonts. */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
 }
 
-.text-display-lg {
-  font-size: clamp(2.25rem, 5vw, 3rem);
-  line-height: 1.1;
-}
-
-.text-heading-lg {
-  font-size: clamp(2rem, 4.5vw, 3rem);
-  line-height: 1.12;
-}
-
-.text-heading-md {
-  font-size: clamp(1.5rem, 3.5vw, 1.875rem);
-  line-height: 1.2;
-}
-
-.text-title-lg {
-  font-size: clamp(1.25rem, 2.5vw, 1.5rem);
-  line-height: 1.35;
-}
-
-.text-title-md {
-  font-size: 1.125rem;
-  line-height: 1.5;
-}
-
-.text-body-lg {
-  font-size: clamp(1rem, 1.5vw, 1.125rem);
-  line-height: 1.75;
-}
-
-.text-body-md {
-  font-size: 0.9375rem;
-  line-height: 1.75;
-}
-
-.text-body-sm {
-  font-size: 0.8125rem;
-  line-height: 1.6;
-}
-
-/* Tiny labels should remain secondary, not unreadable */
-.text-4xs {
-  font-size: 0.625rem;
-  line-height: 1.4;
-}
-
-.text-3xs {
-  font-size: 0.6875rem;
-  line-height: 1.45;
-}
-
-.text-2xs {
-  font-size: 0.75rem;
-  line-height: 1.5;
-}
-
-/* Respect devices with small screens */
-@media (max-width: 640px) {
+/* Tablet sizing */
+@media (min-width: 641px) and (max-width: 1024px) {
   html {
-    scroll-padding-top: 4.5rem;
+    font-size: 16px;
   }
 
   body {
     font-size: 1rem;
     line-height: 1.7;
-    background-size: 32px 32px;
+  }
+
+  .text-body-lg {
+    font-size: 1.125rem;
+    line-height: 1.75;
+  }
+
+  .text-body-md {
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .text-body-sm {
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+}
+
+/* Mobile sizing */
+@media (max-width: 640px) {
+  html {
+    font-size: 16px;
+    scroll-padding-top: 4.5rem;
+  }
+
+  body {
+    font-size: 1rem;
+    line-height: 1.75;
     background-attachment: scroll;
   }
 
-  /* Avoid oversized headings breaking narrow layouts */
   .text-display-xl {
-    font-size: clamp(2.35rem, 10vw, 3.5rem);
-    line-height: 1.08;
+    font-size: clamp(2.35rem, 9vw, 3.5rem);
+    line-height: 1.1;
     letter-spacing: -0.035em;
   }
 
   .text-display-lg {
-    font-size: clamp(2rem, 8vw, 2.75rem);
-    line-height: 1.12;
-  }
-
-  .text-heading-lg {
-    font-size: clamp(1.8rem, 7vw, 2.5rem);
+    font-size: clamp(2rem, 7.5vw, 2.875rem);
     line-height: 1.15;
   }
 
+  .text-heading-lg {
+    font-size: clamp(1.8rem, 6.5vw, 2.5rem);
+    line-height: 1.2;
+  }
+
   .text-heading-md {
-    font-size: clamp(1.4rem, 5.5vw, 1.75rem);
+    font-size: clamp(1.5rem, 5vw, 1.875rem);
+    line-height: 1.25;
+  }
+
+  .text-title-lg {
+    font-size: 1.375rem;
+    line-height: 1.4;
   }
 
   .text-title-md {
+    font-size: 1.1875rem;
+    line-height: 1.5;
+  }
+
+  .text-title-sm {
     font-size: 1.0625rem;
+    line-height: 1.5;
+  }
+
+  .text-body-lg {
+    font-size: 1.0625rem;
+    line-height: 1.8;
   }
 
   .text-body-md {
-    font-size: 0.9375rem;
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+
+  .text-body-sm {
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  .text-caption {
+    font-size: 0.8125rem;
+    line-height: 1.55;
+  }
+
+  .text-label {
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .text-overline {
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    letter-spacing: 0.16em;
+  }
+
+  .text-code {
+    font-size: 0.875rem;
+    line-height: 1.7;
+  }
+
+  .text-quote {
+    font-size: 1.125rem;
     line-height: 1.75;
   }
 
-  /* More comfortable tap targets without forcing every link taller */
-  button,
-  input,
-  select {
-    max-width: 100%;
+  .text-4xs {
+    font-size: 0.6875rem;
+    line-height: 1.5;
   }
 
-  button {
-    min-height: 2.75rem;
+  .text-3xs {
+    font-size: 0.75rem;
+    line-height: 1.5;
   }
 
-  input,
-  select,
-  textarea {
-    min-width: 0;
-    max-width: 100%;
+  .text-2xs {
+    font-size: 0.8125rem;
+    line-height: 1.55;
   }
 
-  /* Prevent grids and flex children from forcing horizontal overflow */
-  main,
-  section,
-  article,
-  header,
-  footer,
-  nav,
-  .grid,
-  .flex {
-    min-width: 0;
-  }
-
+  /* Code remains scrollable without forcing the whole page wider. */
   pre {
     max-width: 100%;
     overflow-x: auto;
-    white-space: pre;
   }
 
-  /* Keep decorative hover movement subtle on touch devices */
-  .glass-card:hover {
-    transform: none;
-  }
-
-  /* Reduce the fixed grid's visual dominance on small displays */
+  /* Keep the grid texture, but use a slightly tighter grid on phones. */
   body {
-    background-image:
-      linear-gradient(color-mix(in oklch, var(--grid-color) 70%, transparent) 1px, transparent 1px),
-      linear-gradient(
-        90deg,
-        color-mix(in oklch, var(--grid-color) 70%, transparent) 1px,
-        transparent 1px
-      );
+    background-size: 32px 32px;
   }
 }
 
 /* Extra-small phones */
 @media (max-width: 380px) {
   .text-display-xl {
-    font-size: clamp(2.1rem, 9.5vw, 2.6rem);
+    font-size: 2.2rem;
+    line-height: 1.12;
+  }
+
+  .text-display-lg {
+    font-size: 1.95rem;
+    line-height: 1.16;
   }
 
   .text-heading-lg {
     font-size: 1.75rem;
+    line-height: 1.2;
+  }
+
+  .text-heading-md {
+    font-size: 1.45rem;
+  }
+
+  .text-title-lg {
+    font-size: 1.25rem;
+  }
+
+  .text-body-lg {
+    font-size: 1.0625rem;
   }
 }
 
-/* Tablets and compact laptops */
-@media (min-width: 641px) and (max-width: 1024px) {
+/* Landscape phones */
+@media (max-width: 900px) and (orientation: landscape) {
   body {
-    background-size: 40px 40px;
+    background-attachment: scroll;
   }
 }
 
-/* Users who prefer less motion */
+/* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
