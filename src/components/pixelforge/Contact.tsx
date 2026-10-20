@@ -19,8 +19,8 @@ const CONTACT_INFO = {
   githubUrl: "https://github.com/Pixelraider-sudo",
   linkedin: "linkedin.com/in/kipkirui-john-aa31b941b",
   linkedinUrl: "https://www.linkedin.com/in/kipkirui-john-aa31b941b/",
-  whatsapp: "+254 740 838 078",
-  whatsappUrl: "https://wa.me/254740838078",
+  whatsapp: "+254 762845454",
+  whatsappUrl: "https://wa.me/254762845454",
   location: "Nairobi, Kenya",
   timezone: "EAT (UTC+3)",
 };

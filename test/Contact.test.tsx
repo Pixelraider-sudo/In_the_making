@@ -18,7 +18,7 @@ describe("Contact", () => {
     expect(screen.getByText("github.com/Pixelraider-sudo")).toBeInTheDocument();
     expect(screen.getByText("linkedin.com/in/kipkirui-john-aa31b941b")).toBeInTheDocument();
     expect(screen.getByText("+254 790 563 520")).toBeInTheDocument();
-    expect(screen.getByText("+254 740 838 078")).toBeInTheDocument();
+    expect(screen.getByText("+254 762845454")).toBeInTheDocument();
   });
 
   it("does not render any known-wrong contact info", () => {
@@ -35,7 +35,7 @@ describe("Contact", () => {
     const emailLink = screen.getByText("kipkiruijohn814@gmail.com").closest("a");
     expect(emailLink).toHaveAttribute("href", "mailto:kipkiruijohn814@gmail.com");
 
-    const whatsappLink = screen.getByText("+254 740 838 078").closest("a");
-    expect(whatsappLink).toHaveAttribute("href", "https://wa.me/254740838078");
+    const whatsappLink = screen.getByText("+254 762845454").closest("a");
+    expect(whatsappLink).toHaveAttribute("href", "https://wa.me/254762845454");
   });
 });

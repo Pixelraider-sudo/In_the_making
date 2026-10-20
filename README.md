@@ -12,25 +12,25 @@ The project reflects the philosophy that great developers are never finished—t
 
 ## Features
 
-* Modern and responsive UI
-* Built with React + TypeScript + Vite
-* Modular component architecture
-* Projects showcase
-* Certifications section
-* Skills and technology stack
-* Development timeline and roadmap
-* Theme support
-* Interactive developer-inspired interface
+- Modern and responsive UI
+- Built with React + TypeScript + Vite
+- Modular component architecture
+- Projects showcase
+- Certifications section
+- Skills and technology stack
+- Development timeline and roadmap
+- Theme support
+- Interactive developer-inspired interface
 
 ---
 
 ## Tech Stack
 
-* React
-* TypeScript
-* Vite
-* Tailwind CSS
-* Lucide React
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Lucide React
 
 ---
 
@@ -95,4 +95,4 @@ This project serves as a continuously evolving digital portfolio that documents 
 
 **Kipkirui John**
 
-*"Always building. Always learning. Always in the making."*
+_"Always building. Always learning. Always in the making."_
