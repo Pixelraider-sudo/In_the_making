@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { BookOpen, ExternalLink, Github, Star } from "lucide-react";
+import { ArrowUpRight, BookOpen, ExternalLink, Github, Star } from "lucide-react";
 
 import { Section } from "./Section";
 import { projects } from "./data/projects";
@@ -28,22 +28,10 @@ type DisplayProject = {
 const getProjectTags = (category: string, repoUrl?: string): Tag[] => {
   const tags: Tag[] = [];
 
-  if (category === "frontend") {
-    tags.push("frontend");
-  }
-
-  if (category === "full-stack") {
-    tags.push("full-stack");
-  }
-
-  if (category === "business") {
-    tags.push("client");
-  }
-
-  // A public repository can be explored from the portfolio.
-  if (repoUrl) {
-    tags.push("open-source");
-  }
+  if (category === "frontend") tags.push("frontend");
+  if (category === "full-stack") tags.push("full-stack");
+  if (category === "business") tags.push("client");
+  if (repoUrl) tags.push("open-source");
 
   return tags;
 };
@@ -69,11 +57,11 @@ const PROJECTS: DisplayProject[] = projects.map((project) => ({
 }));
 
 const FILTER_LABELS: { key: Tag; label: string }[] = [
-  { key: "all", label: "All projects" },
+  { key: "all", label: "All" },
   { key: "full-stack", label: "Full-stack" },
   { key: "client", label: "Client work" },
   { key: "frontend", label: "Frontend" },
-  { key: "open-source", label: "Public repositories" },
+  { key: "open-source", label: "Open source" },
 ];
 
 const STATUS_TONE: Record<ProjectStatus, StatusTone> = {
@@ -98,19 +86,23 @@ export function Projects() {
           Selected <span className="text-gradient-forge">projects</span>.
         </>
       }
-      intro="A selection of digital products, interfaces, and engineering projects built with a focus on thoughtful design, practical functionality, and maintainable code."
+      intro="Digital products, interfaces, and engineering experiments built with thoughtful design and maintainable code."
     >
-      <div className="mb-8 flex flex-wrap items-center gap-2" aria-label="Filter projects">
+      {/* Compact filters */}
+      <div className="mb-5 flex flex-wrap items-center gap-1.5" aria-label="Filter projects">
         {FILTER_LABELS.map((filter) => (
           <button
             key={filter.key}
             type="button"
-            onClick={() => setActive(filter.key)}
+            onClick={() => {
+              setActive(filter.key);
+              setExpanded(null);
+            }}
             aria-pressed={active === filter.key}
-            className={`rounded-md border px-3 py-1.5 text-xs font-mono transition-standard ${
+            className={`rounded-lg border px-3 py-1.5 text-xs font-mono transition-standard focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ${
               active === filter.key
-                ? "border-primary bg-primary/10 text-primary"
-                : "border-border bg-card text-muted-foreground hover:border-primary/50 hover:text-foreground"
+                ? "border-primary/50 bg-primary/10 text-primary"
+                : "border-border bg-card/60 text-muted-foreground hover:border-primary/40 hover:text-foreground"
             }`}
           >
             {filter.label}
@@ -122,33 +114,43 @@ export function Projects() {
         </span>
       </div>
 
-      <div className="grid gap-5 md:grid-cols-2">
+      {/* Compact project grid */}
+      <div className="grid items-start gap-3 sm:grid-cols-2 xl:grid-cols-3">
         {visible.map((project) => {
           const isExpanded = expanded === project.slug;
 
           return (
             <article
               key={project.slug}
-              className={`group flex flex-col overflow-hidden rounded-xl border bg-card transition-standard hover:-translate-y-1 hover:elevation-2 ${
+              className={`group relative flex min-w-0 flex-col overflow-hidden rounded-xl border bg-card/70 transition-all duration-200 hover:-translate-y-0.5 hover:bg-card ${
                 project.featured
-                  ? "border-primary/40 hover:border-primary"
-                  : "border-border hover:border-primary/60"
+                  ? "border-primary/35 hover:border-primary/70"
+                  : "border-border hover:border-primary/40"
               }`}
             >
-              <header className="flex items-center justify-between border-b border-border bg-background/50 px-4 py-2">
-                <div className="flex items-center gap-1.5" aria-hidden="true">
-                  <span className="h-2.5 w-2.5 rounded-full bg-red-500/60" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-yellow-500/60" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-green-500/60" />
-                </div>
+              {/* Small featured accent */}
+              {project.featured && (
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent"
+                />
+              )}
 
-                <div className="flex items-center gap-3">
-                  {project.featured && (
-                    <span className="flex items-center gap-1 text-3xs font-mono text-yellow-400">
-                      <Star aria-hidden="true" className="h-3 w-3 fill-yellow-400" />
-                      Featured
-                    </span>
-                  )}
+              <div className="flex flex-1 flex-col p-4">
+                {/* Title and status */}
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    {project.featured && (
+                      <span className="mb-1.5 inline-flex items-center gap-1 font-mono text-[9px] uppercase tracking-[0.14em] text-yellow-500">
+                        <Star className="h-3 w-3 fill-current" />
+                        Featured
+                      </span>
+                    )}
+
+                    <h3 className="break-words text-base font-semibold leading-snug tracking-tight text-foreground transition-colors group-hover:text-primary">
+                      {project.title}
+                    </h3>
+                  </div>
 
                   <StatusDot
                     label={project.status.replace("-", " ")}
@@ -156,18 +158,14 @@ export function Projects() {
                     size="sm"
                   />
                 </div>
-              </header>
 
-              <div className="flex flex-1 flex-col p-5">
-                <h3 className="text-title-md text-foreground">{project.title}</h3>
+                {/* Short description */}
+                <p className="mt-2 text-xs leading-5 text-muted-foreground">{project.desc}</p>
 
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{project.desc}</p>
-
+                {/* Expandable project details */}
                 {isExpanded && (
-                  <div className="mt-3 border-t border-border pt-3">
-                    <p className="text-xs leading-relaxed text-muted-foreground/80">
-                      {project.detail}
-                    </p>
+                  <div className="mt-3 rounded-lg border border-border/70 bg-background/60 p-3">
+                    <p className="text-xs leading-5 text-muted-foreground">{project.detail}</p>
                   </div>
                 )}
 
@@ -175,41 +173,48 @@ export function Projects() {
                   type="button"
                   onClick={() => setExpanded(isExpanded ? null : project.slug)}
                   aria-expanded={isExpanded}
-                  className="mt-3 self-start text-left text-2xs font-mono text-muted-foreground transition-standard hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
+                  className="mt-2 inline-flex w-fit items-center gap-1 text-[11px] font-mono text-muted-foreground transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                 >
-                  {isExpanded ? "− Show less" : "+ Read project details"}
+                  {isExpanded ? "Show less" : "More details"}
+                  <ArrowUpRight
+                    className={`h-3 w-3 transition-transform ${isExpanded ? "rotate-90" : ""}`}
+                  />
                 </button>
 
-                <ul
-                  className="mt-4 flex flex-wrap gap-1.5"
-                  aria-label={`${project.title} technologies`}
-                >
-                  {project.stack.map((technology) => (
-                    <li key={technology}>
-                      <Badge variant="tag" size="sm">
-                        {technology}
-                      </Badge>
-                    </li>
-                  ))}
-                </ul>
-
+                {/* Technologies and categories share one compact area */}
                 <div className="mt-3 flex flex-wrap gap-1.5">
-                  {project.tags.map((tag) => (
-                    <Badge key={tag} variant="category" size="sm">
-                      #{tag}
+                  {project.stack.slice(0, 4).map((technology) => (
+                    <Badge key={technology} variant="tag" size="sm">
+                      {technology}
                     </Badge>
+                  ))}
+
+                  {project.stack.length > 4 && (
+                    <span className="inline-flex items-center rounded-md border border-border px-1.5 py-0.5 text-[10px] text-muted-foreground">
+                      +{project.stack.length - 4}
+                    </span>
+                  )}
+
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="inline-flex items-center rounded-md bg-primary/[0.07] px-1.5 py-0.5 font-mono text-[9px] text-primary/90"
+                    >
+                      #{tag}
+                    </span>
                   ))}
                 </div>
 
-                <div className="mt-auto flex flex-wrap gap-2 pt-5">
+                {/* Actions */}
+                <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-border/70 pt-3">
                   {project.caseStudySlug && (
                     <Link
                       to="/projects/$slug"
                       params={{ slug: project.caseStudySlug }}
-                      className="inline-flex items-center gap-1.5 rounded-md border border-primary/50 bg-primary/5 px-3 py-1.5 text-xs font-semibold text-primary transition-standard hover:bg-primary/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+                      className="inline-flex min-h-8 items-center gap-1.5 rounded-lg border border-primary/35 px-2.5 py-1.5 text-[11px] font-semibold text-primary transition-colors hover:bg-primary/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                     >
+                      <BookOpen className="h-3 w-3" />
                       Case study
-                      <BookOpen aria-hidden="true" className="h-3 w-3" />
                     </Link>
                   )}
 
@@ -222,7 +227,7 @@ export function Projects() {
                       size="sm"
                     >
                       Live demo
-                      <ExternalLink aria-hidden="true" className="h-3 w-3" />
+                      <ExternalLink className="h-3 w-3" />
                     </Button>
                   )}
 
@@ -234,14 +239,14 @@ export function Projects() {
                       variant="outline"
                       size="sm"
                     >
-                      <Github aria-hidden="true" className="h-3 w-3" />
-                      Source code
+                      <Github className="h-3 w-3" />
+                      Code
                     </Button>
                   )}
 
-                  {!project.live && !project.repo && (
-                    <span className="text-3xs font-mono italic text-muted-foreground/70">
-                      Project details available on request
+                  {!project.live && !project.repo && !project.caseStudySlug && (
+                    <span className="text-[10px] italic text-muted-foreground/70">
+                      Details available on request
                     </span>
                   )}
                 </div>
@@ -252,23 +257,27 @@ export function Projects() {
       </div>
 
       {visible.length === 0 && (
-        <p className="rounded-lg border border-border p-6 text-center text-sm text-muted-foreground">
+        <p className="rounded-xl border border-border p-5 text-center text-sm text-muted-foreground">
           No projects match this filter yet.
         </p>
       )}
 
-      <p className="mt-6 text-xs font-mono text-muted-foreground">
-        <span className="text-primary">$</span> Explore more projects on{" "}
+      <div className="mt-5 flex flex-wrap items-center justify-between gap-3 border-t border-border/70 pt-4">
+        <p className="text-xs text-muted-foreground">
+          <span className="font-mono text-primary">$</span> More experiments, commits, and source
+          code.
+        </p>
+
         <a
           href="https://github.com/Pixelraider-sudo"
           target="_blank"
-          rel="noreferrer"
-          className="text-primary hover:underline"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary transition-colors hover:underline"
         >
-          GitHub
+          Explore GitHub
+          <ArrowUpRight className="h-3.5 w-3.5" />
         </a>
-        .
-      </p>
+      </div>
     </Section>
   );
 }
