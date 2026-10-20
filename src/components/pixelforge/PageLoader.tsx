@@ -1,31 +1,19 @@
 import { useEffect, useState } from "react";
 
 /**
- * Premium boot sequence.
+ * Premium portfolio boot sequence.
  *
- * Design intent: feel like a confident, high-craft product launching,
- * not a terminal booting or a tech demo showing off. Real personal
- * branding (Kipkirui John — matches the Hero exactly), one elegant
- * logo draw-in, two soft ambient glow orbs (CSS-only, cheap), and a
- * thin gradient progress bar. No fake "loading kernel modules" theater.
+ * Timing:
+ * - Minimum display: 1800ms, so the brand animation has room to breathe.
+ * - Readiness cap: 2200ms, so delayed fonts never hold visitors hostage.
+ * - Fade: 280ms, overlapping the page reveal.
  *
- * Timing (hard rules, not aspirations):
- *   - Real readiness (fonts + paint) is awaited, floored at 550ms so
- *     the logo animation isn't skipped on a fast/cached load, capped
- *     at 900ms so a slow font load can never hold the visitor hostage.
- *   - The reveal fade is ~280ms and *overlaps* the hero fading in
- *     underneath — onDone fires the moment the fade starts, not after
- *     it finishes, so the two animations run concurrently.
- *   - Worst case end-to-end: ~1.2s. Typical case: ~600-750ms.
- *
- * Safe under React StrictMode's dev-only double-invoked effects: each
- * invocation owns its own `cancelled` flag, so a phantom first run
- * (cancelled by StrictMode's simulated unmount) can never block the
- * real run from completing and calling onDone.
+ * Reduced-motion preferences are respected.
+ * React StrictMode's development effect replay is supported.
  */
 
-const READY_FLOOR_MS = 550;
-const READY_CAP_MS = 900;
+const READY_FLOOR_MS = 2800;
+const READY_CAP_MS = 3200;
 const FADE_MS = 280;
 
 const STAGES = [
@@ -45,27 +33,28 @@ function wait(ms: number): Promise<void> {
 }
 
 function fontsReady(): Promise<void> {
-  if (typeof document === "undefined" || !document.fonts?.ready) return Promise.resolve();
+  if (typeof document === "undefined" || !document.fonts?.ready) {
+    return Promise.resolve();
+  }
+
   return document.fonts.ready.then(() => undefined);
 }
 
 function usePrefersReducedMotion() {
-  // Read synchronously as the initial state value — this is a pure
-  // client-rendered app (no SSR), so `window` is always available by
-  // the time this runs, and reading it up front (rather than only
-  // inside an effect) means the value is correct from the very first
-  // render instead of racing the boot effect below.
   const [reduced, setReduced] = useState(
     () =>
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   );
+
   useEffect(() => {
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     const onChange = () => setReduced(mq.matches);
+
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
   }, []);
+
   return reduced;
 }
 
@@ -76,13 +65,9 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
   const [gone, setGone] = useState(false);
 
   useEffect(() => {
-    // No "run once" ref guard — this effect is written to tolerate
-    // React StrictMode's dev-only double-invocation cleanly. Each
-    // invocation gets its own independent `cancelled` closure, so a
-    // cancelled first run is harmless and the real run completes
-    // normally and always calls onDone.
-    const alreadyBooted = (window as Window & { __pfBooted?: boolean }).__pfBooted;
-    if (alreadyBooted) {
+    const bootWindow = window as Window & { __pfBooted?: boolean };
+
+    if (bootWindow.__pfBooted) {
       setGone(true);
       onDone();
       return;
@@ -93,30 +78,64 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
     const runStages = async () => {
       for (let i = 0; i < STAGES.length; i++) {
         if (cancelled) return;
+
         setStageIndex(i);
         await STAGES[i].run();
+
         if (cancelled) return;
         setProgress(STAGES[i].pct);
       }
     };
 
-    const readiness = reducedMotion
-      ? runStages()
-      : Promise.race([
-          Promise.all([runStages(), wait(READY_FLOOR_MS)]),
-          wait(READY_CAP_MS).then(() => setProgress(100)),
-        ]);
+    const runBootSequence = async () => {
+      const startedAt = performance.now();
 
-    readiness.then(() => {
+      if (reducedMotion) {
+        await runStages();
+
+        if (cancelled) return;
+
+        bootWindow.__pfBooted = true;
+        onDone();
+        setGone(true);
+        return;
+      }
+
+      // Finish the visual sequence and wait for the minimum display time.
+      // If fonts are unusually slow, the cap prevents an indefinite wait.
+      await Promise.race([
+        Promise.all([runStages(), wait(READY_FLOOR_MS)]),
+        wait(READY_CAP_MS).then(() => {
+          if (!cancelled) {
+            setProgress(100);
+            setStageIndex(STAGES.length - 1);
+          }
+        }),
+      ]);
+
       if (cancelled) return;
-      (window as Window & { __pfBooted?: boolean }).__pfBooted = true;
+
+      // Keep the minimum timing explicit even if readiness wins early.
+      const elapsed = performance.now() - startedAt;
+      if (elapsed < READY_FLOOR_MS) {
+        await wait(READY_FLOOR_MS - elapsed);
+      }
+
+      if (cancelled) return;
+
+      setProgress(100);
+      setStageIndex(STAGES.length - 1);
+      bootWindow.__pfBooted = true;
       onDone();
       setGone(true);
-    });
+    };
+
+    void runBootSequence();
 
     return () => {
       cancelled = true;
     };
+    // onDone is intentionally excluded: this boot sequence should run once.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -136,13 +155,11 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
         transitionDuration: `${FADE_MS}ms`,
       }}
     >
-      {/* Ambient glow orbs — two soft, slow-drifting radial blobs.
-          Pure CSS transform animation, no particle DOM nodes. */}
       {!reducedMotion && (
         <>
           <div
             aria-hidden="true"
-            className="animate-pf-orb-a absolute -top-1/4 -left-1/4 h-[60vmax] w-[60vmax] rounded-full pointer-events-none"
+            className="animate-pf-orb-a pointer-events-none absolute -top-1/4 -left-1/4 h-[60vmax] w-[60vmax] rounded-full"
             style={{
               background: "radial-gradient(circle, oklch(0.78 0.17 60 / 0.14), transparent 65%)",
               filter: "blur(40px)",
@@ -150,7 +167,7 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
           />
           <div
             aria-hidden="true"
-            className="animate-pf-orb-b absolute -bottom-1/4 -right-1/4 h-[55vmax] w-[55vmax] rounded-full pointer-events-none"
+            className="animate-pf-orb-b pointer-events-none absolute -right-1/4 -bottom-1/4 h-[55vmax] w-[55vmax] rounded-full"
             style={{
               background: "radial-gradient(circle, oklch(0.7 0.2 35 / 0.12), transparent 65%)",
               filter: "blur(40px)",
@@ -159,9 +176,8 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
         </>
       )}
 
-      {/* Fine engineering grid, matching the rest of the site */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-40"
+        className="pointer-events-none absolute inset-0 opacity-40"
         style={{
           backgroundImage:
             "linear-gradient(var(--grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--grid-color) 1px, transparent 1px)",
@@ -180,6 +196,7 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
         >
           Kipkirui <span className="text-gradient-forge">John</span>
         </h1>
+
         <p
           className={`mt-1.5 text-body-sm text-muted-foreground ${
             reducedMotion ? "" : "animate-pf-rise-in"
@@ -192,7 +209,7 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
         <div className="mt-9 w-full">
           <div className="h-[3px] w-full overflow-hidden rounded-full bg-border">
             <div
-              className="h-full rounded-full transition-[width] duration-300 ease-out"
+              className="h-full rounded-full transition-[width] duration-500 ease-out"
               style={{
                 width: `${progress}%`,
                 background: "var(--gradient-forge)",
@@ -200,6 +217,7 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
               }}
             />
           </div>
+
           <div className="mt-2.5 flex items-center justify-between">
             <span
               role="status"
@@ -208,7 +226,8 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
             >
               {currentLabel}
             </span>
-            <span className="font-mono text-caption text-primary tabular-nums">{progress}%</span>
+
+            <span className="font-mono text-caption tabular-nums text-primary">{progress}%</span>
           </div>
         </div>
       </div>
@@ -216,13 +235,6 @@ export function PageLoader({ onDone }: { onDone: () => void }) {
   );
 }
 
-/**
- * Abstract geometric mark: a hexagonal outline draws in (stroke
- * animation via pathLength normalization, so the dash math doesn't
- * depend on exact path geometry), then the inner spark fills in,
- * then a soft brand-colored glow pulse settles once the boot
- * sequence completes.
- */
 function PixelForgeMark({ reducedMotion }: { reducedMotion: boolean }) {
   return (
     <svg
@@ -243,6 +255,7 @@ function PixelForgeMark({ reducedMotion }: { reducedMotion: boolean }) {
         strokeDasharray={reducedMotion ? undefined : 1}
         className={reducedMotion ? "" : "animate-pf-draw-outline"}
       />
+
       <path
         d="M38 18L26 38H34L32 54L48 32H39L41 18Z"
         fill="var(--primary)"
