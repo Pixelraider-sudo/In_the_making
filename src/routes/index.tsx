@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { Nav } from "@/components/pixelforge/Nav";
 import { Hero } from "@/components/pixelforge/Hero";
@@ -15,9 +15,7 @@ import { EngineeringModeProvider, useEngineeringMode } from "@/lib/engineering-m
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      {
-        title: "Kipkirui John | Software Engineer",
-      },
+      { title: "Kipkirui John | Software Engineer" },
       {
         name: "description",
         content:
@@ -32,18 +30,9 @@ export const Route = createFileRoute("/")({
         content:
           "Explore Kipkirui John's software projects, frontend development skills, GitHub activity, and work with Xentro Technologies.",
       },
-      {
-        property: "og:type",
-        content: "website",
-      },
-      {
-        name: "twitter:card",
-        content: "summary_large_image",
-      },
-      {
-        name: "author",
-        content: "Kipkirui John",
-      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "author", content: "Kipkirui John" },
     ],
   }),
   component: Index,
@@ -62,15 +51,24 @@ function IndexContent() {
   const [booted, setBooted] = useState(false);
   const { enabled: engineeringMode } = useEngineeringMode();
 
+  const openTerminal = useCallback(() => {
+    if (engineeringMode) setTermOpen(true);
+  }, [engineeringMode]);
+
+  const closeTerminal = useCallback(() => {
+    setTermOpen(false);
+  }, []);
+
   useEffect(() => {
-    if (!engineeringMode) return;
+    if (!engineeringMode) {
+      setTermOpen(false);
+      return;
+    }
 
     const onKeyDown = (event: KeyboardEvent) => {
       if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "k") {
         event.preventDefault();
-        setTermOpen((open) => !open);
-      } else if (event.key === "Escape") {
-        setTermOpen(false);
+        setTermOpen((current) => !current);
       }
     };
 
@@ -81,6 +79,29 @@ function IndexContent() {
     };
   }, [engineeringMode]);
 
+  useEffect(() => {
+    if (!engineeringMode) setTermOpen(false);
+  }, [engineeringMode]);
+
+  const openDestination = useCallback((url: string) => {
+    if (url.startsWith("mailto:")) {
+      window.location.href = url;
+      return;
+    }
+
+    try {
+      const destination = new URL(url, window.location.origin);
+
+      if (destination.protocol !== "https:" && destination.protocol !== "http:") {
+        return;
+      }
+
+      window.open(destination.href, "_blank", "noopener,noreferrer");
+    } catch {
+      // Ignore malformed destinations.
+    }
+  }, []);
+
   return (
     <>
       <PageLoader onDone={() => setBooted(true)} />
@@ -90,23 +111,21 @@ function IndexContent() {
           booted ? "opacity-100" : "pointer-events-none opacity-0"
         }`}
       >
-        <Nav onOpenTerminal={() => setTermOpen(true)} />
+        <Nav onOpenTerminal={openTerminal} />
 
         <main>
-          <Hero onOpenTerminal={() => setTermOpen(true)} />
-
+          <Hero onOpenTerminal={openTerminal} />
           <Projects />
-
           <Skills />
-
           <GitHubStats />
-
           <Contact />
         </main>
 
         <Footer />
 
-        {engineeringMode && <Terminal open={termOpen} onClose={() => setTermOpen(false)} />}
+        {engineeringMode && (
+          <Terminal open={termOpen} onClose={closeTerminal} onOpenUrl={openDestination} />
+        )}
       </div>
     </>
   );
